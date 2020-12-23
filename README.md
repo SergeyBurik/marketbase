@@ -1,2 +1,4 @@
-# marketbase
-Platform source code
+# MarketBase
+
+Online platform for business
+
