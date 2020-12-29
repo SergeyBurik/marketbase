@@ -24,12 +24,11 @@ public class Client {
 
 	private String wayOfComm;
 
-	public Client(User manager, String name, String phoneNumber, String wayOfComm) {
-		this.manager = manager;
+	public Client(String name, String phoneNumber, String wayOfComm) {
 		this.name = name;
 		this.phoneNumber = phoneNumber;
 		this.wayOfComm = wayOfComm;
-		this.status = "waiting_for_manager";
+		this.status = "pending";
 	}
 
 	public Client() {

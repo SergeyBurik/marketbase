@@ -49,7 +49,7 @@ public class UserService {
 				uploadDir.mkdir();
 			}
 
-			// saving cropped image
+			// cropping image
 			String resultFilename = imageCrop.saveSquareImage(avatar);
 
 			user.setAvatar(resultFilename);

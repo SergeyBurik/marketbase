@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.UUID;
 
 @Component
@@ -18,7 +19,7 @@ public class ImageCrop {
 	@Value("${upload.path}")
 	String uploadPath;
 
-	public String saveSquareImage(MultipartFile file) throws IOException {
+	public String cropImage(MultipartFile file) throws IOException {
 		BufferedImage original = ImageIO.read(file.getInputStream());
 		//assuming we want a square thumbnail here
 		int side = Math.min(original.getWidth(), original.getHeight());
@@ -38,7 +39,7 @@ public class ImageCrop {
 		ImageIO.write(img, FilenameUtils.getExtension(file.getOriginalFilename()) ,
 				new File(uploadPath + "/" + resultFilename));
 
-		return resultFilename;
+		return uploadPath + "/" + resultFilename;
 	}
 
 }

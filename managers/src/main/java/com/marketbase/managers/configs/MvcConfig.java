@@ -13,6 +13,9 @@ public class MvcConfig implements WebMvcConfigurer {
 	@Value("${upload.path}")
 	String uploadPath;
 
+	@Value("${resources.server}")
+	String resourcesServerURL;
+
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/login").setViewName("auth/login");
 	}
@@ -22,10 +25,19 @@ public class MvcConfig implements WebMvcConfigurer {
 //        registry
 //                .addResourceHandler("/css/**")
 //                .addResourceLocations("classpath:/resources/static/css");
+//
+//		registry
+//				.addResourceHandler("/uploads/**")
+//				.addResourceLocations("file:///" + uploadPath + "/")
+//				.setCachePeriod(31556926);
+
+		registry
+				.addResourceHandler("/static/css/**")
+				.addResourceLocations(resourcesServerURL + "/css/");
 
 		registry
 				.addResourceHandler("/uploads/**")
-				.addResourceLocations("file:///" + uploadPath + "/")
+				.addResourceLocations(resourcesServerURL + "/uploads/")
 				.setCachePeriod(31556926);
 
 	}

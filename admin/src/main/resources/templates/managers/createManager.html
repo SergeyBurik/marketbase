@@ -8,7 +8,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link type="text/css" rel="stylesheet" media="screen" href="/css/style.css">
+    <link type="text/css" rel="stylesheet" media="screen" href="/static/css/style.css">
 
 </head>
 <body>
@@ -24,10 +24,30 @@
             Employee account has been created.
         </div>
         <h5>Create account</h5>
-        <form action="/admin/create/clients" method="post" enctype="multipart/form-data">
+        <form action="/managers/create" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label> Username: </label>
                 <input type="text" class="form-control" name="username"/>
+            </div>
+            <div class="form-group">
+                <label> Name: </label>
+                <input type="text" class="form-control" name="first_name"/>
+            </div>
+            <div class="form-group">
+                <label> Last name: </label>
+                <input type="text" class="form-control" name="last_name"/>
+            </div>
+            <div class="form-group">
+                <label> Email: </label>
+                <input type="email" class="form-control" name="email"/>
+            </div>
+            <div class="form-group">
+                <label> Avatar: </label>
+                <input type="file" class="form-control" name="avatar"/>
+            </div>
+            <div class="form-group">
+                <label> Password: </label>
+                <input type="password" class="form-control" name="password"/>
             </div>
             <div class="form-group">
                 <button class="btn btn-black">Save</button>
