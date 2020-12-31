@@ -1,10 +1,14 @@
 package com.marketbase.admin.proxies;
 
+import com.marketbase.admin.beans.Client;
 import com.marketbase.admin.beans.SimpleResponse;
 import com.marketbase.admin.beans.SimpleUser;
 import feign.codec.Encoder;
 import feign.form.spring.SpringFormEncoder;
+import lombok.Builder;
+import lombok.Getter;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 
 @FeignClient(name = "managers-service",  configuration = {ManagersServiceProxy.MultipartSupportConfig.class})
@@ -31,8 +36,12 @@ public interface ManagersServiceProxy {
 	@PostMapping("/api/clients")
 	SimpleResponse createClients(@RequestParam("clients") List<String> clients);
 
+	@GetMapping("/api/clients")
+	List<Client> getClients(@SpringQueryMap Map<String, String> params);
+
 	@GetMapping("/api/users/{username}")
 	SimpleUser getManagerByUsername(@PathVariable("username") String username);
+
 
 	class MultipartSupportConfig {
 		@Bean

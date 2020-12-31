@@ -43,15 +43,32 @@ public class APIController {
 		);
 	}
 
-	@GetMapping("/clients")
+	@PostMapping("/clients")
 	public SimpleResponse createClients(@RequestParam List<String> clients) {
 		// 'clients' is a list of phone numbers
 
 		for (String client: clients) {
+			// if client exists
+			if (clientRepository
+					.findByPhoneNumber(client)
+					.isPresent()) {
+				// miss him
+				continue;
+			}
+
 			// saving client to db
 			clientRepository.save(new Client("", client, "whatsapp"));
 		}
 		return new SimpleResponse(200, "");
+	}
+
+	@GetMapping("/clients")
+	public List<Client> clients(@RequestParam(required = false) String status) {
+		if (status != null) {
+			return clientRepository.findByStatus(status);
+		}
+
+		return clientRepository.findAll();
 	}
 
 	@GetMapping("/users/{username}")
