@@ -1,4 +1,4 @@
-package com.marketbase.admin.configs;
+package com.marketbase.app.configs;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -22,10 +22,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 				.authorizeRequests()
-				.antMatchers( "/registration", "/resources/**",
-						"/static/css/**", "/js/**", "/uploads/**",
-						"/api/**").permitAll()
-				.antMatchers("/**").access("hasAuthority('ADMIN')")
+				.antMatchers( "/join", "/resources/**",
+						"/static/css/**", "/js/**", "/css/**", "/uploads/**",
+						"/api/**", "/").permitAll()
 				.anyRequest().authenticated()
 				.and()
 				.formLogin()
