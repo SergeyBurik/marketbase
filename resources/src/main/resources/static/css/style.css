@@ -6,7 +6,7 @@
 .navbar-brand {
     font-weight: 800!important;
     font-size: 22px!important;
-    color: #a900ff!important;
+    color: black!important;
 }
 
 body {
@@ -30,6 +30,11 @@ body {
 
 .background-white {
     background: white;
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
+}
+
+body {
+	color:black;
 }
 
 .posts {
@@ -142,7 +147,7 @@ html {
 /*buttons*/
 #msform .action-button {
 	width: 100px;
-	background: #27AE60;
+	background: black;
 	font-weight: bold;
 	color: white;
 	border: 0 none;
@@ -152,7 +157,7 @@ html {
 	margin: 10px 5px;
 }
 #msform .action-button:hover, #msform .action-button:focus {
-	box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
+	box-shadow: 0 0 0 2px white, 0 0 0 3px black;
 }
 /*headings*/
 .fs-title {
@@ -212,7 +217,7 @@ html {
 /*marking active/completed steps green*/
 /*The number of the step and the connector before it = green*/
 #progressbar li.active:before,  #progressbar li.active:after{
-	background: #27AE60;
+	background: black;
 	color: white;
 }
 

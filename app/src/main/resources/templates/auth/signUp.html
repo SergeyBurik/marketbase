@@ -4,56 +4,62 @@
     <title th:text="${projectName}"/>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link type="text/css" rel="stylesheet" media="screen" href="/static/css/style.css">
 
 </head>
-<body>
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="100" data-aos-easing="slide"
+      data-aos-duration="800" data-aos-delay="0" data-new-gr-c-s-check-loaded="14.991.0" data-gr-ext-installed=""
+      class="">
 <th:block th:include="includes/header.html"></th:block>
 
-
-<div class="container mt-5 mb-5">
-    <div class="col-12 col-md-6 col-lg-4 background-white container-radius">
-        <div th:if="${param.error}">
-            User with such username exists.
+<div class="untree_co-hero" id="home-section">
+    <div class="container mt-5 mb-5">
+        <div class="col-12 col-md-6 col-lg-4 background-white container-radius">
+            <div th:if="${param.error}">
+                User with such username exists.
+            </div>
+            <h5>Create account</h5>
+            <form action="/join" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label> Username: </label>
+                    <input type="text" class="form-control" name="username"/>
+                </div>
+                <div class="form-group">
+                    <label> Name: </label>
+                    <input type="text" class="form-control" name="first_name"/>
+                </div>
+                <div class="form-group">
+                    <label> Last name: </label>
+                    <input type="text" class="form-control" name="last_name"/>
+                </div>
+                <div class="form-group">
+                    <label> Email: </label>
+                    <input type="email" class="form-control" name="email"/>
+                </div>
+                <div class="form-group">
+                    <label> Phone number: </label>
+                    <input type="text" class="form-control" name="phoneNumber"/>
+                </div>
+                <div class="form-group">
+                    <label> Avatar: </label>
+                    <input type="file" class="form-control" name="avatar"/>
+                </div>
+                <div class="form-group">
+                    <label> Password: </label>
+                    <input type="password" class="form-control" name="password"/>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-black">Sign up</button>
+                </div>
+            </form>
         </div>
-        <h5>Create account</h5>
-        <form action="/join" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label> Username: </label>
-                <input type="text" class="form-control" name="username"/>
-            </div>
-            <div class="form-group">
-                <label> Name: </label>
-                <input type="text" class="form-control" name="first_name"/>
-            </div>
-            <div class="form-group">
-                <label> Last name: </label>
-                <input type="text" class="form-control" name="last_name"/>
-            </div>
-            <div class="form-group">
-                <label> Email: </label>
-                <input type="email" class="form-control" name="email"/>
-            </div>
-            <div class="form-group">
-                <label> Phone number: </label>
-                <input type="text" class="form-control" name="phoneNumber"/>
-            </div>
-            <div class="form-group">
-                <label> Avatar: </label>
-                <input type="file" class="form-control" name="avatar"/>
-            </div>
-            <div class="form-group">
-                <label> Password: </label>
-                <input type="password" class="form-control" name="password"/>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-black">Sign up</button>
-            </div>
-        </form>
     </div>
 </div>
 </body>

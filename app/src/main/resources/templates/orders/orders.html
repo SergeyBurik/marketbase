@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title th:text="${projectName}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
+            integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
+            crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link type="text/css" rel="stylesheet" media="screen" href="/static/css/style.css">
+
+
+</head>
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="100" data-aos-easing="slide"
+      data-aos-duration="800" data-aos-delay="0" data-new-gr-c-s-check-loaded="14.991.0" data-gr-ext-installed=""
+      class="">
+<th:block th:include="includes/header.html"></th:block>
+
+<div class="untree_co-hero" id="home-section">
+    <div class="container mt-4 mb-5">
+        <div class="background-white container-radius">
+            <div class="service-icon color-3 mb-4">
+                <svg class="bi bi-briefcase" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M0 12.5A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-6h-1v6a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-6H0v6z"></path>
+                    <path fill-rule="evenodd" d="M0 4.5A1.5 1.5 0 0 1 1.5 3h13A1.5 1.5 0 0 1 16 4.5v2.384l-7.614 2.03a1.5 1.5 0 0 1-.772 0L0 6.884V4.5zM1.5 4a.5.5 0 0 0-.5.5v1.616l6.871 1.832a.5.5 0 0 0 .258 0L15 6.116V4.5a.5.5 0 0 0-.5-.5h-13zM5 2.5A1.5 1.5 0 0 1 6.5 1h3A1.5 1.5 0 0 1 11 2.5V3h-1v-.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5V3H5v-.5z"></path>
+                </svg>
+            </div>
+            <h5>Your orders</h5>
+        </div>
+        <div class="background-white container-radius mt-3" th:each="order: ${orders}">
+            <a th:href="'/orders/' + ${order.getId()}">
+                <h5 th:text="${order.getTemplate().getName()}"/>
+                <h7>Modules</h7>
+                <ul style="margin-left: 20px;">
+                    <li th:each="module_: ${order.getModules()}" th:text="${module_.getName()}"/>
+                </ul>
+                <h6 th:text="'Status: ' + ${order.getStatus()}"/>
+                <h6 th:text="${order.getTotal()}+'.pyб'"/>
+            </a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,5 +1,7 @@
 package com.marketbase.app.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -14,9 +16,15 @@ public class Template {
 
 	private String preview;
 
+	private String previewGif;
+
 	private String projectName;
 
+	@Column(columnDefinition = "TEXT")
+	private String description;
+
 	@OneToMany(mappedBy = "template")
+	@JsonIgnore
 	private Set<Order> orders;
 
 	@OneToMany(mappedBy = "template")
