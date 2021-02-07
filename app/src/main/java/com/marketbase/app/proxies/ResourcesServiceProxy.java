@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 @FeignClient(name = "resources-service", configuration = {ResourcesServiceProxy.MultipartSupportConfig.class})
-public interface 	ResourcesServiceProxy {
+public interface ResourcesServiceProxy {
 
 	@RequestMapping(value = {"/upload"}, method = {RequestMethod.POST}, consumes = {"multipart/form-data"})
 	String saveFile(@RequestPart("file") MultipartFile file);
