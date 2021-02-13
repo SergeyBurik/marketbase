@@ -15,11 +15,10 @@ client.connect(hostname=ip, username=user, password=password, port=22)
 client.exec_command(f"echo {password} && sudo -s")
 
 # create clone deploy script
-client.exec_command("cd /home;")
+client.exec_command("cd /home")
 
 # download and execute setup.py
 client.exec_command("sudo apt install curl")
-client.exec_command(f"curl -O {host}/order/{orderId}/file/setup.py")
-client.exec_command(f"python3 setup.py {orderId}")
+client.exec_command(f"curl -s {host}/order/{orderId}/file/setup.py | python3 -")
 
 client.close()

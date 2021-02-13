@@ -83,15 +83,17 @@ public class OrderAPIController {
 			orderRepository.save(order);
 
 			return new SimpleResponse(
-					200, "Application was successfully deploy to production server."
+					200,
+					"Application was successfully deploy to production server."
 			);
 		} else {
 			return new SimpleResponse(500, response.getMessage());
 		}
 	}
+
 	@PostMapping("")
 	public SimpleResponse saveOrder(@RequestParam Long templateId,
-							@RequestParam String modules) {
+									@RequestParam String modules) {
 
 		// connect chosen modules to the order
 		Set<Module> connectedModules = new HashSet<>();
