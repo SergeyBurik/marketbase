@@ -1,24 +1,29 @@
-from sys import argv
-import paramiko
-import requests
-import time
+try:
 
-# parsing args
-script, orderId, host, ip, user, password, domain = argv
+    from sys import argv
+    import paramiko
+    import requests
+    import time
 
-# connect to ssh
-client = paramiko.SSHClient()
-client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-client.connect(hostname=ip, username=user, password=password, port=22)
+    # parsing args
+    script, orderId, host, ip, user, password, domain = argv
 
-# enter sudo mode
-client.exec_command(f"echo {password} && sudo -s")
+    # connect to ssh
+    client = paramiko.SSHClient()
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    client.connect(hostname=ip, username=user, password=password, port=22)
 
-# create clone deploy script
-client.exec_command("cd /home")
+    # enter sudo mode
+    client.exec_command(f"echo {password} && sudo -s")
 
-# download and execute setup.py
-client.exec_command("sudo apt install curl")
-client.exec_command(f"curl -s {host}/order/{orderId}/file/setup.py | python3 -")
+    # create clone deploy script
+    client.exec_command("cd /home")
 
-client.close()
+    # download and execute setup.py
+    client.exec_command("sudo apt install curl")
+    client.exec_command(f"curl -s {host}/order/{orderId}/file/setup.py | python3 -")
+
+    client.close()
+
+except Exception as e:
+    requests.get(f"{host}/{orderId}/debug?message={e}")

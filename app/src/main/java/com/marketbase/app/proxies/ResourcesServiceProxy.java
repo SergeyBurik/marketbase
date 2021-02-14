@@ -21,8 +21,7 @@ public interface ResourcesServiceProxy {
 	SimpleResponse deploy(@RequestParam Long orderId,
 						  @RequestParam String serverIp,
 						  @RequestParam String serverUser,
-						  @RequestParam String serverPassword,
-						  @RequestParam String domainName);
+						  @RequestParam String serverPassword);
 
 	class MultipartSupportConfig {
 		@Bean

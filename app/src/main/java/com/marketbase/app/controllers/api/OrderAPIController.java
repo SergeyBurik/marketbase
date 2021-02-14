@@ -46,17 +46,16 @@ public class OrderAPIController {
 											   @RequestParam String serverIP,
 											   @RequestParam String domainName,
 											   @RequestParam String paymentGatewayAPI,
-											   @RequestParam Integer serverPort,
-											   @RequestParam String serverUser) {
+											   @RequestParam String serverUser,
+											   @RequestParam String serverPassword) {
 		Order order = orderRepository.getOne(id);
 
 		order.setPaymentGatewayType(paymentGateway);
 		order.setPaymentGatewayAPI(paymentGatewayAPI);
-
 		order.setServerIP(serverIP);
-		order.setServerPort(serverPort);
 		order.setDomainName(domainName);
 		order.setServerUser(serverUser);
+		order.setServerUserPassword(serverPassword);
 
 		order.setStatus(new OrderProperties().READY_TO_DEPLOY);
 
@@ -74,8 +73,7 @@ public class OrderAPIController {
 				order.getId(),
 				order.getServerIP(),
 				order.getServerUser(),
-				order.getServerUserPassword(),
-				order.getDomainName()
+				order.getServerUserPassword()
 		);
 
 		if (response.getCode() == 200) {
@@ -84,7 +82,7 @@ public class OrderAPIController {
 
 			return new SimpleResponse(
 					200,
-					"Application was successfully deploy to production server."
+					"Application was successfully deployed to production server."
 			);
 		} else {
 			return new SimpleResponse(500, response.getMessage());
@@ -108,7 +106,7 @@ public class OrderAPIController {
 				userService.getCurrentUser(),
 				templateRepository.getOne(templateId),
 				total,
-				"pending",
+				"Created",
 				connectedModules
 		);
 

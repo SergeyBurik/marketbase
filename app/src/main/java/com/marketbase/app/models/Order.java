@@ -34,8 +34,6 @@ public class Order {
 	// server
 	private String serverIP;
 
-	private Integer serverPort;
-
 	private String domainName;
 
 	private String serverUser;
@@ -99,14 +97,6 @@ public class Order {
 
 	public void setDomainName(String domainName) {
 		this.domainName = domainName;
-	}
-
-	public Integer getServerPort() {
-		return serverPort;
-	}
-
-	public void setServerPort(Integer serverPort) {
-		this.serverPort = serverPort;
 	}
 
 	public Long getId() {
