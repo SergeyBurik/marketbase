@@ -64,6 +64,21 @@ public class OrderAPIController {
 		return new SimpleResponse(200, "Server credential was changed.");
 	}
 
+	@PostMapping("/{id}/complete")
+	public SimpleResponse completeOrder(@PathVariable Long id, @RequestParam String result) {
+		Order order = orderRepository.getOne(id);
+		OrderProperties orderProperties = new OrderProperties();
+
+		if (result.equals("SUCCESS")) {
+			order.setStatus(orderProperties.COMPLETED);
+		} else if (result.equals("FAILED")) {
+			order.setStatus(orderProperties.FAILED);
+		}
+
+		orderRepository.save(order);
+		return new SimpleResponse(200, "");
+	}
+
 	@PostMapping("/{id}/deploy")
 	public SimpleResponse deployProject(@PathVariable("id") Long id) throws Exception {
 		Order order = orderRepository.getOne(id);
@@ -77,7 +92,7 @@ public class OrderAPIController {
 		);
 
 		if (response.getCode() == 200) {
-			order.setStatus("DEPLOYED");
+			order.setStatus(new OrderProperties().DEPLOYING);
 			orderRepository.save(order);
 
 			return new SimpleResponse(

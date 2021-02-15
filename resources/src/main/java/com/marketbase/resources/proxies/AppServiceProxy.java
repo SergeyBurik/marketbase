@@ -11,12 +11,16 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "resources-service", configuration = {AppServiceProxy.MultipartSupportConfig.class})
 public interface AppServiceProxy {
 
 	@RequestMapping(value = {"/api/orders/{id}"}, method = {RequestMethod.GET}, consumes = {"multipart/form-data"})
 	Order getOrder(@PathVariable Long id);
+
+	@RequestMapping(value = {"/api/orders/{id}/complete"}, method = {RequestMethod.POST}, consumes = {"application/json"})
+	SimpleResponse completeOrder(@PathVariable Long id, @RequestParam String result);
 
 	class MultipartSupportConfig {
 		@Bean

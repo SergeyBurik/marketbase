@@ -9,7 +9,7 @@ public class OrderProperties {
 	public String READY_TO_DEPLOY = "Ready to deploy";
 	public String DEPLOYING = "Deploying";
 	public String COMPLETED = "Completed";
+	public String FAILED = "Failed";
 
 	public List<String> paymentGateways = Arrays.asList("Yandex Checkout");
-
 }

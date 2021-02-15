@@ -31,10 +31,9 @@ public class DeployService {
 		return response;
 	}
 
-	public void deploy(String username,
-					   String password,
-					   String host,
-					   Long orderId) {
+	public void deploy(String username, String password,
+					   String host, Long orderId,
+					   String projectName, String domainName) {
 		Session session = null;
 		ChannelExec channel = null;
 
@@ -49,7 +48,10 @@ public class DeployService {
 			sendCommand(session, "echo " + password + " && sudo -s");
 			sendCommand(session, "cd /home");
 			sendCommand(session, "sudo apt install curl");
-			sendCommand(session, "curl -s " + "http://127.0.0.1:8888" + "/order/" + orderId + "/file/setup.py | python3 -");
+
+			// download setup script and run
+			sendCommand(session, "curl -s " + serverHost + "/order/" + orderId + "/file/setup.py --output setup.py");
+			sendCommand(session, "python3 setup.py " + orderId + " " + serverHost + " " + projectName + " " + domainName);
 
 		} catch (InterruptedException e) {
 			e.printStackTrace();
