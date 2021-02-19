@@ -27,13 +27,13 @@ public class DeployService {
 
 		String response = new String(responseStream.toByteArray());
 
-		System.out.println(response);
+		System.out.println(command + " : " + response);
 		return response;
 	}
 
 	public void deploy(String username, String password,
 					   String host, Long orderId,
-					   String projectName, String domainName) {
+					   String projectName, String domainName) throws InterruptedException, JSchException {
 		Session session = null;
 		ChannelExec channel = null;
 
@@ -51,13 +51,12 @@ public class DeployService {
 
 			// download setup script and run
 			sendCommand(session, "curl -s " + serverHost + "/order/" + orderId + "/file/setup.py --output setup.py");
+			sendCommand(session, "ls -l");
+			sendCommand(session, "pwd");
+			sendCommand(session, "cat setup.py");
 			sendCommand(session, "python3 setup.py " + orderId + " " + serverHost + " " + projectName + " " + domainName);
 
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (JSchException e) {
-			e.printStackTrace();
-		} finally {
+		}  finally {
 			if (session != null) {
 				session.disconnect();
 			}

@@ -33,7 +33,7 @@ public class AuthController {
 					last_name, email,
 					phoneNumber, password, avatar);
 		} catch (Exception e) {
-			return "redirect:/join?error";
+			return "redirect:/join?error="+ e.getMessage();
 		}
 
 		return "redirect:/login";

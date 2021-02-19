@@ -36,5 +36,4 @@ public class AnnotationAdvice {
 		Optional<User> user = userRepository.findByUsername(username);
 		return user.orElse(null);
 	}
-
 }

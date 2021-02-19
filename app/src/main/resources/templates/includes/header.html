@@ -22,30 +22,31 @@
     </div>
     <div class="site-mobile-menu-body">
         <ul class="site-nav-wrap">
-            <li class="active"><a href="#home-section" class="nav-link active">Home</a></li>
+            <li class="active"><a href="/" class="nav-link active">Home</a></li>
             <li class="has-children"><span class="arrow-collapse collapsed" data-toggle="collapse"
                                            data-target="#collapseItem0"></span>
                 <a href="#" class="nav-link">Orders</a>
                 <ul class="collapse" id="collapseItem0">
                     <li><a href="/orders/new" class="nav-link">New</a></li>
-                    <li><a href="/orders/" class="nav-link">My Orders</a></li>
+                    <li><a href="/orders" class="nav-link">My Orders</a></li>
                 </ul>
             </li>
-            <li><a href="#features-section" class="nav-link">Features</a></li>
-            <li><a href="#pricing-section" class="nav-link">Pricing</a></li>
-            <li><a href="#about-section" class="nav-link">About</a></li>
-            <li><a href="#contact-section" class="nav-link">Contact</a></li>
         </ul>
         <ul class="site-nav-wrap">
-            <li class="cta-button-outline"><a href="/login">Sign in</a></li>
-            <li class="cta-primary"><a href="/join">Register</a></li>
+            <div th:if="${#httpServletRequest.remoteUser}">
+                <li class="cta-button-outline"><a href="/orders">Orders</a></li>
+            </div>
+            <div th:unless="${#httpServletRequest.remoteUser}">
+                <li class="cta-button-outline"><a href="/login">Sign in</a></li>
+                <li class="cta-primary"><a href="/join">Register</a></li>
+            </div>
         </ul>
     </div>
 </div>
 <nav class="site-nav dark js-site-navbar mb-5 site-navbar-target">
     <div class="container">
         <div class="site-navigation">
-            <a href="index.html" class="logo m-0 float-left"><span th:text="${projectName}"></span><span
+            <a href="/" class="logo m-0 float-left"><span th:text="${projectName}"></span><span
                     class="text-primary">.</span></a>
             <ul class="js-clone-nav d-none d-lg-inline-block site-menu float-left">
                 <li class="active"><a href="#home-section" class="nav-link active">Home</a></li>
@@ -57,15 +58,19 @@
                         <li><a href="/orders/" class="nav-link">My Orders</a></li>
                     </ul>
                 </li>
-                <li><a href="#features-section" class="nav-link">Features</a></li>
-                <li><a href="#pricing-section" class="nav-link">Pricing</a></li>
-                <li><a href="#about-section" class="nav-link">About</a></li>
-                <li><a href="#contact-section" class="nav-link">Contact</a></li>
             </ul>
-            <ul class="js-clone-nav d-none mt-1 d-lg-inline-block site-menu float-right">
-                <li class="cta-button-outline"><a href="/login">Sign in</a></li>
-                <li class="cta-primary"><a href="/join">Register</a></li>
-            </ul>
+            <div th:if="${#httpServletRequest.remoteUser}">
+                <ul class="js-clone-nav d-none mt-1 d-lg-inline-block site-menu float-right">
+                    <li class="cta-button-outline"><a href="/orders">Orders</a></li>
+                </ul>
+            </div>
+            <div th:unless="${#httpServletRequest.remoteUser}">
+                <ul class="js-clone-nav d-none mt-1 d-lg-inline-block site-menu float-right">
+                    <li class="cta-button-outline"><a href="/login">Sign in</a></li>
+                    <li class="cta-primary"><a href="/join">Register</a></li>
+                </ul>
+            </div>
+
             <a href="#" class="burger ml-auto float-right site-menu-toggle js-menu-toggle d-inline-block dark d-lg-none"
                data-toggle="collapse" data-target="#main-navbar">
                 <span></span>

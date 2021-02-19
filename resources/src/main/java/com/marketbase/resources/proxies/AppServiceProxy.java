@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "resources-service", configuration = {AppServiceProxy.MultipartSupportConfig.class})
+@FeignClient(name = "app-service", configuration = {AppServiceProxy.MultipartSupportConfig.class})
 public interface AppServiceProxy {
 
-	@RequestMapping(value = {"/api/orders/{id}"}, method = {RequestMethod.GET}, consumes = {"multipart/form-data"})
+	@RequestMapping(value = {"/api/orders/{id}"}, method = {RequestMethod.GET})
 	Order getOrder(@PathVariable Long id);
 
 	@RequestMapping(value = {"/api/orders/{id}/complete"}, method = {RequestMethod.POST}, consumes = {"application/json"})

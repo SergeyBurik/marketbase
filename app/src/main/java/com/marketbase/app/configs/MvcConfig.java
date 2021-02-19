@@ -36,6 +36,10 @@ public class MvcConfig implements WebMvcConfigurer {
 				.addResourceLocations(resourcesServerURL + "/css/");
 
 		registry
+				.addResourceHandler("/static/assets/**")
+				.addResourceLocations(resourcesServerURL + "/assets/");
+
+		registry
 				.addResourceHandler("/static/js/**")
 				.addResourceLocations(resourcesServerURL + "/js/");
 

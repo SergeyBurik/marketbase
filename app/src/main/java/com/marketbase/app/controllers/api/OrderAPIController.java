@@ -1,5 +1,6 @@
 package com.marketbase.app.controllers.api;
 
+import com.marketbase.app.beans.DeployLog;
 import com.marketbase.app.beans.SimpleResponse;
 import com.marketbase.app.models.Module;
 import com.marketbase.app.models.Order;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -37,7 +39,7 @@ public class OrderAPIController {
 
 	@GetMapping("/{id}")
 	public Order getOrder(@PathVariable Long id) {
-		return orderRepository.getOne(id);
+		return orderRepository.findById(id).get();
 	}
 
 	@PostMapping("/{id}/serverCredential")
@@ -79,6 +81,11 @@ public class OrderAPIController {
 		return new SimpleResponse(200, "");
 	}
 
+	@GetMapping("/{id}/logs")
+	public List<DeployLog> orderDeployLogs(@PathVariable Long id) {
+		return resourcesServiceProxy.getDeployLogs(id);
+	}
+
 	@PostMapping("/{id}/deploy")
 	public SimpleResponse deployProject(@PathVariable("id") Long id) throws Exception {
 		Order order = orderRepository.getOne(id);
@@ -100,6 +107,8 @@ public class OrderAPIController {
 					"Application was successfully deployed to production server."
 			);
 		} else {
+			order.setStatus(new OrderProperties().FAILED);
+			orderRepository.save(order);
 			return new SimpleResponse(500, response.getMessage());
 		}
 	}

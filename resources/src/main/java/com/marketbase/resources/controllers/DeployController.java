@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 
 @RestController
@@ -51,6 +52,11 @@ public class DeployController {
 					order.getTemplate().getProjectName(), order.getDomainName()
 			);
 		} catch (Exception e) {
+			deployDebugMessageRepository.save(
+					new DeployDebugMessage(
+							orderId, e.getMessage(), "ERROR", new Timestamp(System.currentTimeMillis())
+					)
+			);
 			return new SimpleResponse(500, e.getMessage());
 		}
 
@@ -88,6 +94,11 @@ public class DeployController {
 		return deployDebugMessageRepository.save(new DeployDebugMessage(
 				orderId, message, type, dateTime
 		));
+	}
+
+	@GetMapping("/{orderId}/logs")
+	public List<DeployDebugMessage> getLogs(@PathVariable Long orderId) {
+		return deployDebugMessageRepository.findByOrderId(orderId);
 	}
 
 }
