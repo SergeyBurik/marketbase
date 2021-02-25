@@ -8,6 +8,7 @@ import com.marketbase.resources.repositories.DeployDebugMessageRepository;
 import com.marketbase.resources.services.DeployService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -81,19 +82,17 @@ public class DeployController {
 		return new SimpleResponse(200, "");
 	}
 
-	@PostMapping("/{orderId}/debug")
+	@PostMapping(value = "/{orderId}/debug", consumes = {"application/json"})
 	public DeployDebugMessage deployDebug(@PathVariable("orderId") Long orderId,
-										  @RequestParam String type,
-										  @RequestParam String message,
-										  @RequestParam Timestamp dateTime) {
+										  @RequestBody DeployDebugMessage log) {
+		log.setOrderId(orderId);
+
 		// if error occurred while deploying
-		if (type.equals("ERROR")) {
+		if (log.getLevel().equals("ERROR")) {
 			appServiceProxy.completeOrder(orderId, "FAILED");
 		}
 
-		return deployDebugMessageRepository.save(new DeployDebugMessage(
-				orderId, message, type, dateTime
-		));
+		return deployDebugMessageRepository.save(log);
 	}
 
 	@GetMapping("/{orderId}/logs")

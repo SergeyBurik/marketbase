@@ -1,5 +1,7 @@
 package com.marketbase.resources.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,8 +19,9 @@ public class DeployDebugMessage {
 
 	private String message;
 
-	private String type;
+	private String level;
 
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date dateTime;
 
 	public DeployDebugMessage() {
@@ -27,7 +30,7 @@ public class DeployDebugMessage {
 	public DeployDebugMessage(Long orderId, String message, String type, Date dateTime) {
 		this.orderId = orderId;
 		this.message = message;
-		this.type = type;
+		this.level = type;
 		this.dateTime = dateTime;
 	}
 
@@ -63,11 +66,11 @@ public class DeployDebugMessage {
 		this.message = message;
 	}
 
-	public String getType() {
-		return type;
+	public String getLevel() {
+		return level;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setLevel(String type) {
+		this.level = type;
 	}
 }

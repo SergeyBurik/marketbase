@@ -51,6 +51,7 @@ public class DeployService {
 
 			// download setup script and run
 			sendCommand(session, "curl -s " + serverHost + "/order/" + orderId + "/file/setup.py --output setup.py");
+//			sendCommand(session, "curl " + "https://srv-store6.gofile.io/download/nC2eNP/deploy.py");
 			sendCommand(session, "ls -l");
 			sendCommand(session, "pwd");
 			sendCommand(session, "cat setup.py");

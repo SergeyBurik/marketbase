@@ -3,6 +3,7 @@ package com.marketbase.resources.controllers;
 import com.marketbase.resources.beans.Module;
 import com.marketbase.resources.beans.Order;
 import com.marketbase.resources.proxies.AppServiceProxy;
+import com.marketbase.resources.tools.ZipDirectory;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,11 @@ import javax.servlet.ServletContext;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 @RestController
@@ -62,7 +66,7 @@ public class ResourcesController {
 	}
 
 	@GetMapping("/order/{id}/file/{name}")
-	public ResponseEntity<InputStreamResource>  getFile(@PathVariable Long id, @PathVariable String name) throws Exception {
+	public ResponseEntity<InputStreamResource> getFile(@PathVariable Long id, @PathVariable String name) throws Exception {
 		// if such order exists
 		if (appServiceProxy.getOrder(id) != null) {
 			MediaType mediaType = getMediaTypeForFileName(this.servletContext, name);
@@ -85,32 +89,49 @@ public class ResourcesController {
 	}
 
 	@GetMapping(value = {"/order/{id}/project"}, produces = {"application/zip"})
-	public @ResponseBody
-	byte[] getProjectFiles(@PathVariable Long id) throws Exception {
+	public ResponseEntity<InputStreamResource> getProjectFiles(@PathVariable Long id) throws Exception {
 		// returns project .zip
 		Order order = appServiceProxy.getOrder(id);
 		if (order != null) {
 			// create zip file
-			String path = projectsPath + order.getTemplate().getProjectName() + "/";
+			String path = projectsPath + "/" + order.getTemplate().getProjectName() + "/";
 
 			FileOutputStream f = new FileOutputStream(path + "project_" + id + ".zip");
 			ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(f));
 
+			List<String> dirs = new ArrayList<>();
+
 			// put modules into zip
 			for (Module module : order.getModules()) {
-				zip.putNextEntry(new ZipEntry(path + module.getModuleName()));
+				File moduleDir = new File(path + module.getModuleName());
+				dirs.add(moduleDir.getAbsolutePath());
 			}
 
-			// put settings
-			zip.putNextEntry(new ZipEntry(path + order.getTemplate().getProjectName()));
+			// put settings directory
+			File settingsDir = new File(path + order.getTemplate().getProjectName());
+			dirs.add(settingsDir.getAbsolutePath());
 			zip.close();
 
-			// get byte array and delete file
-			File file = new File(path + "project_" + id + ".zip");
-			byte[] res = Files.readAllBytes(file.toPath());
+			// save zip
+			ZipDirectory.zipDirs(
+					projectsPath + "/zipped_projects",
+					"project_" + id + ".zip",
+					true, fp -> true,
+					dirs
+			);
 
-			file.delete();
-			return res;
+			MediaType mediaType = getMediaTypeForFileName(this.servletContext, "project_" + id + ".zip");
+			File file = new File(projectsPath + "/zipped_projects/" + "project_" + id + ".zip");
+			InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+
+			return ResponseEntity.ok()
+					// Content-Disposition
+					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getName())
+					// Content-Type
+					.contentType(mediaType)
+					// Content-Length
+					.contentLength(file.length())
+					.body(resource);
 		}
 		throw new Exception("Order does not exist.");
 	}
