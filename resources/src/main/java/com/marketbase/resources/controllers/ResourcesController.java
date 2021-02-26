@@ -137,9 +137,6 @@ public class ResourcesController {
 	}
 
 	public static MediaType getMediaTypeForFileName(ServletContext servletContext, String fileName) {
-		// application/pdf
-		// application/xml
-		// image/gif, ...
 		String mineType = servletContext.getMimeType(fileName);
 		try {
 			return MediaType.parseMediaType(mineType);
