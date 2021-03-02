@@ -1,5 +1,6 @@
 package com.marketbase.resources.controllers;
 
+import com.marketbase.resources.beans.Module;
 import com.marketbase.resources.beans.Order;
 import com.marketbase.resources.beans.SimpleResponse;
 import com.marketbase.resources.models.DeployDebugMessage;
@@ -48,9 +49,16 @@ public class DeployController {
 			// get order
 			Order order = appServiceProxy.getOrder(orderId);
 
+			// get modules string (ex. "storeapp;store;store/", ...)
+			String modules = "";
+			for (Module module: order.getModules()) {
+				modules += module.getModuleName() + ";" + module.getNamespace() + ";" + module.getUrl();
+			}
+
 			deployService.deploy(
 					serverUser, serverPassword, serverIp, orderId,
-					order.getTemplate().getProjectName(), order.getDomainName()
+					order.getTemplate().getProjectName(), order.getDomainName(),
+					modules
 			);
 		} catch (Exception e) {
 			deployDebugMessageRepository.save(

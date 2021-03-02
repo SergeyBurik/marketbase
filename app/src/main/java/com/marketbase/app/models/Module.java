@@ -23,6 +23,9 @@ public class Module {
 
 	private String moduleName;
 
+	private String namespace;
+	private String url;
+
 	private Float price;
 
 	@ManyToMany
@@ -31,11 +34,14 @@ public class Module {
 	@Column(columnDefinition = "TEXT")
 	private String description;
 
-	public Module(Long id, Template template, String name, String moduleName, Float price, String description) {
+	public Module(Long id, Template template, String name, String moduleName, String namespace,
+				  String url, Float price, String description) {
 		this.id = id;
 		this.template = template;
 		this.name = name;
 		this.moduleName = moduleName;
+		this.namespace = namespace;
+		this.url = url;
 		this.price = price;
 		this.description = description;
 	}
@@ -73,6 +79,22 @@ public class Module {
 
 	public void setTemplate(Template template) {
 		this.template = template;
+	}
+
+	public String getNamespace() {
+		return namespace;
+	}
+
+	public void setNamespace(String namespace) {
+		this.namespace = namespace;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public String getName() {

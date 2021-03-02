@@ -15,6 +15,9 @@ public class Module {
 
 	private Float price;
 
+	private String namespace;
+	private String url;
+
 	private Set<Order> orders;
 
 	private String description;
@@ -65,6 +68,22 @@ public class Module {
 
 	public void setOrders(Set<Order> orders) {
 		this.orders = orders;
+	}
+
+	public String getNamespace() {
+		return namespace;
+	}
+
+	public void setNamespace(String namespace) {
+		this.namespace = namespace;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public String getDescription() {

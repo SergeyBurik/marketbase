@@ -103,13 +103,14 @@ public class ResourcesController {
 
 			// put modules into zip
 			for (Module module : order.getModules()) {
-				File moduleDir = new File(path + module.getModuleName());
-				dirs.add(moduleDir.getAbsolutePath());
+				dirs.add(path + module.getModuleName());
 			}
 
+			// put main app in project
+			dirs.add(path + "mainapp");
+
 			// put settings directory
-			File settingsDir = new File(path + order.getTemplate().getProjectName());
-			dirs.add(settingsDir.getAbsolutePath());
+			dirs.add(path + order.getTemplate().getProjectName());
 			zip.close();
 
 			// save zip
