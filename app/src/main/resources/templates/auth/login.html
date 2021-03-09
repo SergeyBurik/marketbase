@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!--<html>-->
+<!--<head>-->
+<!--    <title th:text="${projectName}"/>-->
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"-->
+<!--          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">-->
+<!--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"-->
+<!--            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"-->
+<!--            crossorigin="anonymous"></script>-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+
+
+<!--</head>-->
+<!--<body data-spy="scroll" data-target=".site-navbar-target" data-offset="100" data-aos-easing="slide"-->
+<!--      data-aos-duration="800" data-aos-delay="0" data-new-gr-c-s-check-loaded="14.991.0" data-gr-ext-installed=""-->
+<!--      class="">-->
+<!--<th:block th:include="includes/header.html"></th:block>-->
+
+<!--<div class="untree_co-hero" id="home-section">-->
+<!--    <div class="container mt-5 mb-5">-->
+<!--        <div class="col-12 col-md-6 col-lg-4 background-white container-radius">-->
+<!--            <div th:if="${param.error}">-->
+<!--                <p th:text="${param.error}"/>-->
+<!--            </div>-->
+<!--            <div th:if="${param.logout}">-->
+<!--                You have been logged out.-->
+<!--            </div>-->
+<!--            <h5>Login</h5>-->
+<!--            <form action="/login" method="post">-->
+<!--                <div class="form-group">-->
+<!--                    <label> User Name : </label>-->
+<!--                    <input type="text" class="form-control" name="username"/>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <label> Password: </label>-->
+<!--                    <input type="password" class="form-control" name="password"/>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <button class="btn btn-black">Login</button>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&amp;display=swap" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/static/assets/login/css/style.css">
+    <title th:text="${projectName}"/>
+</head>
+<body data-new-gr-c-s-check-loaded="14.996.0" data-gr-ext-installed="">
+<div class="content">
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <div class="col-md-6 contents">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <div class="form-block">
+                            <div class="mb-4">
+                                <h3>Sign In to <strong th:text="${projectName}"/></h3>
+<!--                                <p class="mb-4">Lorem ipsum dolor sit amet elit. Sapiente sit aut eos consectetur adipisicing.</p>-->
+                            </div>
+                            background: #407BFF;
+                            <form action="#" method="post">
+                                <div class="form-group first">
+                                    <label for="username">Username</label>
+                                    <input type="text" class="form-control" name="username" id="username">
+                                </div>
+                                <div class="form-group last mb-4">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" name="password" id="password">
+                                </div>
+                                <div class="d-flex mb-5 align-items-center">
+<!--                                    <label class="control control&#45;&#45;checkbox mb-0"><span class="caption">Remember me</span>-->
+<!--                                        <input type="checkbox" checked="checked">-->
+<!--                                        <div class="control__indicator"></div>-->
+<!--                                    </label>-->
+<!--                                    <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password</a></span>-->
+                                </div>
+                                <input type="submit" value="Log In" class="btn btn-pill text-white btn-block btn-primary">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/static/assets/login/js/popper.min.js"></script>
+<script src="/static/assets/login/js/main.js"></script>
+
+</body></html>

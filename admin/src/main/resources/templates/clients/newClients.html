@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymleaf.org">
+<head>
+    <title>MarketBase</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tagify/3.22.0/tagify.min.css"
+          integrity="sha512-91wa7heHLbuVdMrSXbWceVZva6iWDFlkFHnM+9Sc+oXFpTgw1FCqdnuaGBJfDVuNSNl0DwDmeGeJSORB0HyLZQ=="
+          crossorigin="anonymous"/>
+
+
+    <link type="text/css" rel="stylesheet" media="screen" href="/static/css/style.css">
+
+</head>
+<body>
+<th:block th:include="includes/header.html"></th:block>
+
+<div class="container mt-5 mb-5">
+    <h3>Adding clients <span id="status"></span></h3>
+
+    <form action="#">
+        <div class="form-group">
+            <label>Clients list</label>
+            <textarea name="clients" id="clients" class="form-control" rows="5"></textarea>
+        </div>
+        <input type="button" class="btn btn-black" id="save" value="Save">
+    </form>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tagify/3.22.0/tagify.min.js"
+        integrity="sha512-ZqXUktoXke+N4dJuGOhpA6voQyr1cjA4kjsnALiLkjFPo9eya2PsQOc7lUf9g4NeecAsUo0yLJ5OjS5WN25Jwg=="
+        crossorigin="anonymous"></script>
+<script>
+    let inputElm = document.getElementById("clients");
+
+    let data = [];
+
+    let tagify = new Tagify(inputElm);
+    inputElm.addEventListener('change', onChange);
+
+    function onChange(e) {
+        // outputs a String
+        clients_ = [];
+
+        for (let cl of JSON.parse(e.target.value)) {
+            clients_.push(cl.value);
+        }
+        console.log(clients_);
+    }
+
+    $("#save").click(function () {
+        $.ajax({
+            type:"POST",
+            url: '/clients/create',
+            dataType: "json",
+            contentType: 'application/json',
+            method: "post",
+            data: JSON.stringify(clients_),
+            success: function (res) {
+                console.log(res);
+                if (res.code == 200) {
+                    $("#status").text("Saved").css("color", "#008000");
+                } else {
+                    $("#status").text("Error").css("color", "#a31515");
+                    alert(res.message);
+                }
+            }
+        });
+        // clean field
+        // tagify.removeAllTags();
+    });
+</script>
+
+</body>
+</html>
