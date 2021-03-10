@@ -42,8 +42,7 @@ public class UserService {
 
 	public User save(String username, String first_name,
 					 String last_name, String email,
-					 String phoneNumber, String password,
-					 MultipartFile avatar) throws Exception {
+					 String phoneNumber, String password) throws Exception {
 
 		// check username
 		if (userRepository.findByUsername(username).isPresent()) {
@@ -52,28 +51,28 @@ public class UserService {
 
 		User user = new User(username, first_name, last_name, password, email, phoneNumber);
 
-		if (avatar != null && !avatar.getOriginalFilename().isEmpty()) {
-
-			// cropping and temporary saving image
-			File file = new File(imageCrop.cropImage(avatar));
-			FileInputStream input = new FileInputStream(file);
-
-			MultipartFile multipartFile = new MockMultipartFile("file",
-					file.getName(),
-					FilenameUtils.getExtension(avatar.getOriginalFilename()),
-					IOUtils.toByteArray(input));
-
-			// saving cropped image
-			String resultFilename = resourcesServiceProxy.saveFile(multipartFile);
-
-			// deleting temporary saved image
-			file.delete();
-
-			user.setAvatar(resultFilename);
-			user.setActive(true);
-			user.setRoles(Collections.singleton(UserRole.USER));
-		}
-
+//		if (avatar != null && !avatar.getOriginalFilename().isEmpty()) {
+//
+//			// cropping and temporary saving image
+//			File file = new File(imageCrop.cropImage(avatar));
+//			FileInputStream input = new FileInputStream(file);
+//
+//			MultipartFile multipartFile = new MockMultipartFile("file",
+//					file.getName(),
+//					FilenameUtils.getExtension(avatar.getOriginalFilename()),
+//					IOUtils.toByteArray(input));
+//
+//			// saving cropped image
+//			String resultFilename = resourcesServiceProxy.saveFile(multipartFile);
+//
+//			// deleting temporary saved image
+//			file.delete();
+//
+//			user.setAvatar(resultFilename);
+//
+//		}
+		user.setActive(true);
+		user.setRoles(Collections.singleton(UserRole.USER));
 		userRepository.save(user);
 
 		return user;
