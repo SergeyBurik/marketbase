@@ -44,16 +44,12 @@ public class OrderAPIController {
 
 	@PostMapping("/{id}/serverCredential")
 	public SimpleResponse saveServerCredential(@PathVariable("id") Long id,
-											   @RequestParam String paymentGateway,
 											   @RequestParam String serverIP,
 											   @RequestParam String domainName,
-											   @RequestParam String paymentGatewayAPI,
 											   @RequestParam String serverUser,
 											   @RequestParam String serverPassword) {
 		Order order = orderRepository.getOne(id);
 
-		order.setPaymentGatewayType(paymentGateway);
-		order.setPaymentGatewayAPI(paymentGatewayAPI);
 		order.setServerIP(serverIP);
 		order.setDomainName(domainName);
 		order.setServerUser(serverUser);

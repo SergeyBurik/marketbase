@@ -22,12 +22,16 @@
             width: 100%;
         }
 
-        td, th {
+        table tbody td {
             border: 1px solid #dddddd;
             text-align: left;
             padding: 8px;
+            height: 55px;
         }
 
+        table thead th {
+            height: 45px;
+        }
         tr:nth-child(even) {
             background-color: #fafafa;
         }
@@ -41,7 +45,7 @@
 
 <div class="untree_co-hero" id="home-section">
     <div class="container mt-4 mb-5">
-        <div class="container-radius" style="border: lightgray solid 1px">
+        <div class="container-radius">
             <h5>Your orders</h5>
 
             <table>
@@ -61,7 +65,7 @@
                         <td>
                             <span
                                     th:each="module_ : ${order.getModules()}"
-                                    th:text="${module_.getName()}"/>
+                                    th:text="${module_.getName()} + '; '"/>
                         </td>
                         <td><h6 th:text="${order.getStatus()}"/></td>
                         <td><h6 th:text="${order.getTotal()}"></h6></td>

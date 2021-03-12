@@ -44,7 +44,7 @@ body {
 
 .container-radius {
     border-radius: 15px;
-    padding: 15px;
+	padding: 15px 0 0 0;
 }
 
 .flex-block {

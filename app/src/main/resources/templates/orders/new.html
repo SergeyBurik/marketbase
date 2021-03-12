@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
@@ -18,7 +17,9 @@
 
 
 </head>
-<body data-spy="scroll" data-target=".site-navbar-target" data-offset="100" data-aos-easing="slide" data-aos-duration="800" data-aos-delay="0" data-new-gr-c-s-check-loaded="14.991.0" data-gr-ext-installed="" class="">
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="100" data-aos-easing="slide"
+      data-aos-duration="800" data-aos-delay="0" data-new-gr-c-s-check-loaded="14.991.0" data-gr-ext-installed=""
+      class="">
 <link type="text/css" rel="stylesheet" media="screen" href="/static/css/style.css">
 <link rel="stylesheet" href="https://preview.colorlib.com/theme/launch/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://preview.colorlib.com/theme/launch/css/owl.carousel.min.css">
@@ -108,24 +109,25 @@
                 <h2 class="fs-title">Chose template</h2>
 
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 col-12 mt-3" th:each="template : ${templates}">
-                        <div class="card selectCard" data-id="1" th:data-name="${template.getName()}"
+                    <div class="col-lg-6 col-md-6 col-12 mt-3" th:each="template_ : ${templates_}">
+                        <div class="card selectCard" data-id="1" th:data-name="${template_.getName()}"
                              style="text-align: left; box-shadow: 0 1px 6px #eee;">
                             <img class="card-img-top" style="height: 300px;
                                                              object-position: top;
                                                              object-fit: cover;"
-                                 src="http://127.0.0.1:8888/uploads/minimalistic.png" th:alt="${template.getName()}">
+                                 th:src="${template_.getPreview()}" th:alt="${template_.getName()}">
                             <div class="card-body">
-                                <h6 class="card-title" th:text="${template.getName()"/>
+                                <h6 class="card-title" th:text="${template_.getName()}"/>
 
                                 <strong>
                                     <h7>Modules:</h7>
                                 </strong>
                                 <div>
-                                    <div th:each="module : ${template.getModules()}" style="display: inline-block; margin-right: 7px;">
+                                    <div th:each="module : ${template_.getModules()}"
+                                         style="display: inline-block; margin-right: 7px;">
                                         <h7 th:text="${module.getName()}"/>
                                         <strong>
-                                            <h7 th:text="${modules.getPrice()}"/>
+                                            <h7 th:text="${module.getPrice()}"/>
                                         </strong>
                                     </div>
                                 </div>
@@ -240,9 +242,12 @@
         modules = "";
         total = 0;
         for (let module of document.getElementsByClassName("moduleCard")) {
-            modules += module.dataset.id + ";";
-            modulesList += module.dataset.name + "; ";
-            total += parseInt(module.dataset.price);
+            if (module.hasClass("selected")) {
+                modules += module.dataset.id + ";";
+                modulesList += module.dataset.name + "; ";
+                total += parseInt(module.dataset.price);
+            }
+
         }
 
         $("#modulesInp").val(modules);

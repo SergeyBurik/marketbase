@@ -78,7 +78,12 @@
                 </li>
             </ul>
 
-            <div>
+            <div th:if="${#httpServletRequest.remoteUser}">
+                <ul class="js-clone-nav d-none mt-1 d-lg-inline-block site-menu float-right">
+                    <li class="cta-primary"><a href="/orders/">Orders</a></li>
+                </ul>
+            </div>
+            <div th:unless="${#httpServletRequest.remoteUser}">
                 <ul class="js-clone-nav d-none mt-1 d-lg-inline-block site-menu float-right">
                     <li class="cta-button-outline"><a href="/login">Sign in</a></li>
                     <li class="cta-primary"><a href="/join">Register</a></li>
