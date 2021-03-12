@@ -22,7 +22,7 @@ public class AuthController {
 	}
 
 	@PostMapping("/join")
-	public String addUser(@RequestParam String username, @RequestParam("avatar") MultipartFile avatar,
+	public String addUser(@RequestParam String username,
 						  @RequestParam String first_name, @RequestParam String last_name,
 						  @RequestParam String password, @RequestParam String email,
 						  @RequestParam String phoneNumber) throws Exception {
@@ -31,13 +31,11 @@ public class AuthController {
 			User u = userService.save(
 					username, first_name,
 					last_name, email,
-					phoneNumber, password, avatar);
+					phoneNumber, password);
 		} catch (Exception e) {
 			return "redirect:/join?error="+ e.getMessage();
 		}
 
 		return "redirect:/login";
-
 	}
-
 }

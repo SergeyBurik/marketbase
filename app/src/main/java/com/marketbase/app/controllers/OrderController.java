@@ -40,7 +40,7 @@ public class OrderController {
 
 	@GetMapping("/new")
 	public String newOrder(Model model) {
-		model.addAttribute("templates", templateRepository.findAll());
+		model.addAttribute("templates_", templateRepository.findAll());
 		return "orders/new";
 	}
 

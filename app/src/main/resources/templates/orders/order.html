@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>MarketBase</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
+            integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
+            crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link type="text/css" rel="stylesheet" media="screen" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+</head>
+<body style="color: black" data-spy="scroll" data-target=".site-navbar-target" data-offset="100" data-aos-easing="slide"
+      data-aos-duration="800" data-aos-delay="0" data-new-gr-c-s-check-loaded="14.991.0" data-gr-ext-installed=""
+      class="">
+<link type="text/css" rel="stylesheet" media="screen" href="/static/css/style.css">
+<link rel="stylesheet" href="https://preview.colorlib.com/theme/launch/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://preview.colorlib.com/theme/launch/css/owl.carousel.min.css">
+<link rel="stylesheet" href="https://preview.colorlib.com/theme/launch/css/owl.theme.default.min.css">
+<link rel="stylesheet" href="https://preview.colorlib.com/theme/launch/css/jquery.fancybox.min.css">
+<link rel="stylesheet" href="https://preview.colorlib.com/theme/launch/fonts/icomoon/style.css">
+<link rel="stylesheet" href="https://preview.colorlib.com/theme/launch/fonts/flaticon/font/flaticon.css">
+<link rel="stylesheet" href="https://preview.colorlib.com/theme/launch/css/aos.css">
+<link rel="stylesheet" href="https://preview.colorlib.com/theme/launch/css/style.css">
+
+<div class="lines-wrap">
+    <div class="lines-inner">
+        <div class="lines"></div>
+    </div>
+</div>
+
+<div class="site-mobile-menu site-navbar-target">
+    <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close">
+            <span class="icofont-close js-menu-toggle"></span>
+        </div>
+    </div>
+    <div class="site-mobile-menu-body">
+        <ul class="site-nav-wrap">
+            <li class="active"><a href="/" class="nav-link active">Home</a></li>
+            <li class="has-children"><span class="arrow-collapse collapsed" data-toggle="collapse"
+                                           data-target="#collapseItem0"></span>
+                <a href="#" class="nav-link">Orders</a>
+                <ul class="collapse" id="collapseItem0">
+                    <li><a href="/orders/new" class="nav-link">New</a></li>
+                    <li><a href="/orders" class="nav-link">My Orders</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="site-nav-wrap">
+            <div>
+                <li class="cta-button-outline"><a href="/orders">Orders</a></li>
+            </div>
+
+        </ul>
+    </div>
+</div>
+<nav class="site-nav dark js-site-navbar mb-5 site-navbar-target">
+    <div class="container">
+        <div class="site-navigation">
+            <a href="/" class="logo m-0 float-left"><span>MarketBase</span><span
+                    class="text-primary">.</span></a>
+            <ul class="js-clone-nav d-none d-lg-inline-block site-menu float-left">
+                <li class="active"><a href="#home-section" class="nav-link active">Home</a></li>
+
+                <li class="has-children">
+                    <a href="#" class="nav-link">Orders</a>
+                    <ul class="dropdown">
+                        <li><a href="/orders/new" class="nav-link">New</a></li>
+                        <li><a href="/orders/" class="nav-link">My Orders</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div>
+                <ul class="js-clone-nav d-none mt-1 d-lg-inline-block site-menu float-right">
+                    <li class="cta-button-outline"><a href="/orders">Orders</a></li>
+                </ul>
+            </div>
+
+
+            <a href="#" class="burger ml-auto float-right site-menu-toggle js-menu-toggle d-inline-block dark d-lg-none"
+               data-toggle="collapse" data-target="#main-navbar">
+                <span></span>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="untree_co-hero" id="home-section" style="font-family: 'system-ui'">
+    <div class="container mt-4 mb-5">
+        <div class="container-radius" style="border: #e6e6e6 1px solid; padding: 15px">
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-6" style="border-right: 1px solid lightgray;">
+                    <h5>Order #<span th:text="${order.getId()}"/></h5>
+                    <h5 th:text="${order.getTemplate().getName()}"/>
+                    <h6>Modules</h6>
+                    <ul style="margin-left: 20px;">
+                        <li th:each="module_ : ${order.getModules()}" th:text="${module_.getName()}"/>
+                    </ul>
+                    <h6>Status: <span th:text="${order.getStatus()}"/></h6>
+                    <h6><span th:text="${order.getTotal()}"/> pyб.</h6>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6">
+                    <p style="display: none" id="orderId" th:text="${order.getId()}"/>
+                    <p style="display: none" id="orderStatus" th:text="${order.getStatus()}"/>
+
+                    <th:block th:switch="${order.getStatus()}">
+                        <div class="mt-3" th:case="'Created'">
+                            <h5>Your order was successfully created</h5>
+                            <h6>Enter server settings info</h6>
+
+                            <form method="post" id="serverCredentialForm">
+                                <h5 id="serverCredentialStatus"></h5>
+                                <div class="form-group">
+                                    <label>Server IP</label>
+                                    <input type="text" name="serverIP" class="form-control" placeholder="Server IP">
+                                </div>
+                                <div class="form-group">
+                                    <label>Server User</label>
+                                    <input type="text" name="serverUser" class="form-control" placeholder="Server User">
+                                </div>
+                                <div class="form-group">
+                                    <label>Server Password</label>
+                                    <input type="password" name="serverPassword" class="form-control"
+                                           placeholder="Server Port">
+                                </div>
+                                <div class="form-group">
+                                    <label>Domain Name</label>
+                                    <input type="text" name="domainName" class="form-control" placeholder="example.com">
+                                </div>
+                                <button class="btn btn-primary" style="padding: 15px" id="btnSave" type="submit">
+                                    Submit
+                                </button>
+                            </form>
+                        </div>
+                        <div class="mt-3" th:case="'Ready to deploy'">
+                            <button class="deployBtn btn btn-primary">Deploy</button>
+                            <div class="log"></div>
+                        </div>
+                        <div class="mt-3" th:case="'Failed'">
+                            <button class="deployBtn btn btn-primary">Retry</button>
+                            <div class="log"></div>
+                        </div>
+                        <div class="mt-3" th:case="'Completed'">
+                            <h5>Your order was completed</h5>
+                            <a th:href="'http://' + ${order.getDomainName()}">Go to site</a>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        let orderId = $("#orderId").text();
+
+        $("#serverCredentialForm").submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: `/api/orders/${orderId}/serverCredential`,
+                data: $(this).serialize(),
+                success: function (response) {
+                    $("#btnSave").text("Saved");
+                    // TODO: deploy after saving settings
+                },
+                error: function (response) {
+                    $("#serverCredentialStatus").text("Error while saving");
+                }
+            });
+        });
+
+
+        $(".deployBtn").click(function () {
+            $.ajax({
+                type: "POST",
+                url: `/api/orders/${orderId}/deploy`,
+                success: function (response) {
+                    // TODO: add deploy js
+                    if (response.code === 500) {
+                        clearInterval(logFetchInterval);
+                        alert("Deploying failed: " + response.message);
+                    }
+                },
+                error: function (response) {}
+            });
+
+            let logFetchInterval = setInterval(() => {
+                // fetch logs every 3 secs
+                $.ajax({
+                    type: "GET",
+                    url: `/api/orders/${orderId}/logs`,
+                    success: function (response) {
+                        $(".log").html("");
+                        console.log(response);
+                        for (let log of response) {
+                            $(".log").append(`
+                                <div>
+                                    <p>${log.message}</p>
+                                </div>
+                            `);
+                        }
+                    },
+                    error: function (response) {
+
+                    }
+                });
+            }, 3000)
+        });
+    </script>
+</div>
+</body>
+</html>
