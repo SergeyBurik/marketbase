@@ -100,7 +100,7 @@ public class OrderAPIController {
 
 			return new SimpleResponse(
 					200,
-					"Application was successfully deployed to production server."
+					"Deploying application"
 			);
 		} else {
 			order.setStatus(new OrderProperties().FAILED);
