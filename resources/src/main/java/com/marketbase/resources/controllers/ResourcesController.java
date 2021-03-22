@@ -3,6 +3,7 @@ package com.marketbase.resources.controllers;
 import com.marketbase.resources.beans.Module;
 import com.marketbase.resources.beans.Order;
 import com.marketbase.resources.proxies.AppServiceProxy;
+import com.marketbase.resources.repositories.AppPropertyRepository;
 import com.marketbase.resources.tools.ZipDirectory;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import java.io.*;
 import java.nio.file.Files;
@@ -30,14 +32,12 @@ import java.util.zip.ZipOutputStream;
 @RestController
 public class ResourcesController {
 
-	@Value("${upload.path}")
-	String uploadPath;
+	@Autowired
+	AppPropertyRepository appPropertyRepository;
 
-	@Value("${host}")
-	String serverName;
-
-	@Value("${projects.path}")
-	String projectsPath;
+	String uploadPath = "";
+	String serverName = "";
+	String projectsPath = "";
 
 	@Autowired
 	private ServletContext servletContext;
@@ -144,5 +144,12 @@ public class ResourcesController {
 		} catch (Exception e) {
 			return MediaType.APPLICATION_OCTET_STREAM;
 		}
+	}
+
+	@PostConstruct
+	public void init() {
+		uploadPath = appPropertyRepository.getByKey("upload.path").get().getValue();
+		serverName = appPropertyRepository.getByKey("host").get().getValue();
+		projectsPath = appPropertyRepository.getByKey("projects.path").get().getValue();
 	}
 }

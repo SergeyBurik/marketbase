@@ -5,6 +5,7 @@ import com.marketbase.resources.beans.Order;
 import com.marketbase.resources.beans.SimpleResponse;
 import com.marketbase.resources.models.DeployDebugMessage;
 import com.marketbase.resources.proxies.AppServiceProxy;
+import com.marketbase.resources.repositories.AppPropertyRepository;
 import com.marketbase.resources.repositories.DeployDebugMessageRepository;
 import com.marketbase.resources.services.DeployService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,8 @@ import java.util.List;
 @RequestMapping("/deploy")
 public class DeployController {
 
-	@Value("${projects.path}")
-	String projectsPath;
+	@Autowired
+	AppPropertyRepository appPropertyRepository;
 
 	@Autowired
 	DeployService deployService;
