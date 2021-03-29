@@ -38,8 +38,8 @@ public class DeployService {
 
 		SSHConnection ssh = new SSHConnection(username, password, host);
 		ssh.execute(
-				"cd /home; curl -s " + serverHost + "/order/" + orderId + "/file/setup.py --output setup.py;" +
-				"ls -l; pwd;" +
+				"cd /home; curl -s " + serverHost + "/order/" + orderId + "/file/setup.py --output setup.py; " +
+				"ls -l; pwd; " +
 				"python3 setup.py " + orderId + " " + serverHost + " " + projectName + " " + domainName + " " + modules
 		);
 
