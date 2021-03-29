@@ -17,7 +17,7 @@ public class SSHConnection {
 
 	public void execute(String command) throws IOException {
 		Runtime rt = Runtime.getRuntime();
-		Process proc = rt.exec("sshpass -p '" + password + "' ssh " + user + "@" + host + "'" + command +"'");
+		Process proc = rt.exec("sshpass -p '" + password + "' ssh " + user + "@" + host + " '" + command +"'");
 
 		BufferedReader stdInput = new BufferedReader(new
 				InputStreamReader(proc.getInputStream()));

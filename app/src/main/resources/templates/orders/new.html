@@ -242,7 +242,7 @@
         modules = "";
         total = 0;
         for (let module of document.getElementsByClassName("moduleCard")) {
-            if (module.hasClass("selected")) {
+            if (module.classList.contains("selected")) {
                 modules += module.dataset.id + ";";
                 modulesList += module.dataset.name + "; ";
                 total += parseInt(module.dataset.price);
