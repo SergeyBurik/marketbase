@@ -4,16 +4,26 @@ import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import com.marketbase.resources.repositories.AppPropertyRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 @Component
 public class DeployService {
-	@Value("${host}")
-	String serverHost;
+	@Autowired
+	AppPropertyRepository appPropertyRepository;
+
+	String serverHost = "";
+
+	@PostConstruct
+	public void init() {
+		serverHost = appPropertyRepository.getByKey("host").get().getValue();
+	}
 
 	private String sendCommand(Session session, String command) throws JSchException, InterruptedException {
 		ChannelExec channel = (ChannelExec) session.openChannel("exec");
@@ -40,7 +50,7 @@ public class DeployService {
 		ssh.execute(
 				"cd /home; curl -s " + serverHost + "/order/" + orderId + "/file/setup.py --output setup.py; " +
 				"ls -l; pwd; " +
-				"python3 setup.py " + orderId + " " + serverHost + " " + projectName + " " + domainName + " " + modules
+				"python3 setup.py " + orderId + " " + serverHost + " " + projectName + " " + domainName + " '" + modules + "'"
 		);
 
 
