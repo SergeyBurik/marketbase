@@ -50,7 +50,7 @@ public class DeployService {
 		ssh.execute(
 				"cd /home; curl -s " + serverHost + "/order/" + orderId + "/file/setup.py --output setup.py; " +
 				"ls -l; pwd; " +
-				"python3 setup.py " + orderId + " " + serverHost + " " + projectName + " " + domainName + " '" + modules + "'"
+				"python3 setup.py " + orderId + " " + serverHost + " " + projectName + " " + domainName + " \"" + modules + "\""
 		);
 
 

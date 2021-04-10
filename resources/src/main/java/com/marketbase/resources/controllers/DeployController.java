@@ -53,7 +53,7 @@ public class DeployController {
 			// get modules string (ex. "storeapp;store;store/", ...)
 			String modules = "";
 			for (Module module: order.getModules()) {
-				modules += module.getModuleName() + ";" + module.getNamespace() + ";" + module.getUrl() + ", ";
+				modules += module.getModuleName() + ";" + module.getNamespace() + ";" + module.getUrl() + ",";
 			}
 
 			deployService.deploy(
