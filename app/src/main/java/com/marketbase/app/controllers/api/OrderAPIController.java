@@ -6,6 +6,7 @@ import com.marketbase.app.models.Module;
 import com.marketbase.app.models.Order;
 import com.marketbase.app.models.OrderProperties;
 import com.marketbase.app.proxies.ResourcesServiceProxy;
+import com.marketbase.app.proxies.TechmanagersServiceProxy;
 import com.marketbase.app.repositories.ModuleRepository;
 import com.marketbase.app.repositories.OrderRepository;
 import com.marketbase.app.repositories.TemplateRepository;
@@ -37,6 +38,9 @@ public class OrderAPIController {
 	@Autowired
 	ResourcesServiceProxy resourcesServiceProxy;
 
+	@Autowired
+	TechmanagersServiceProxy techmanagersServiceProxy;
+
 	@GetMapping("/{id}")
 	public Order getOrder(@PathVariable Long id) {
 		return orderRepository.findById(id).get();
@@ -48,6 +52,7 @@ public class OrderAPIController {
 											   @RequestParam String domainName,
 											   @RequestParam String serverUser,
 											   @RequestParam String serverPassword) {
+		// save order info
 		Order order = orderRepository.getOne(id);
 
 		order.setServerIP(serverIP);
@@ -58,6 +63,9 @@ public class OrderAPIController {
 		order.setStatus(new OrderProperties().READY_TO_DEPLOY);
 
 		orderRepository.save(order);
+
+		// send deploy ticket to tech managers
+		techmanagersServiceProxy.createDeployTicket(id);
 
 		return new SimpleResponse(200, "Server credential was changed.");
 	}
