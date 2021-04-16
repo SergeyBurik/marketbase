@@ -1,6 +1,7 @@
 package com.marketbase.techmanagers.proxies;
 
 import com.marketbase.techmanagers.beans.Order;
+import com.marketbase.techmanagers.beans.SimpleResponse;
 import com.marketbase.techmanagers.models.AppDeployTicket;
 import feign.codec.Encoder;
 import feign.form.spring.SpringFormEncoder;
@@ -15,6 +16,9 @@ public interface AppServiceProxy {
 
 	@RequestMapping(value = {"/api/orders/{id}"}, method =  {RequestMethod.GET})
 	Order getOrder(@PathVariable Long id);
+
+	@RequestMapping(value = {"/api/orders/{id}"}, method =  {RequestMethod.POST})
+	SimpleResponse saveOrder(@PathVariable Long id, @RequestBody Order order);
 
 	class MultipartSupportConfig {
 		@Bean

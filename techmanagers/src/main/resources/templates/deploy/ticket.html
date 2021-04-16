@@ -11,7 +11,87 @@
 <div class="container">
     <h4>Ticket #<span th:text="${ticket.getId()}"/></h4>
     <h5 th:text="${ticket.getTemplate().getName()}"/>
-</div>
 
+    <form th:action="'/api/deploy/' + ${ticket.getId()} + '/accept'" method="post">
+        <button type="submit">Accept ticket</button>
+    </form>
+
+    <div style="display: none">
+        <p id="orderId" th:text="${ticket.getId()}"/>
+    </div>
+
+    <div th:if="${ticket.getStatus() == 'Ready to deploy'}">
+        <form action="#" id="form">
+            <div class="form-group">
+                <label>Server IP</label>
+                <input type="text" name="serverIP" class="form-control" placeholder="Server IP">
+            </div>
+            <div class="form-group">
+                <label>Server User</label>
+                <input type="text" name="serverUser" class="form-control" placeholder="Server User">
+            </div>
+            <div class="form-group">
+                <label>Server Password</label>
+                <input type="password" name="serverPassword" class="form-control"
+                       placeholder="Server Port">
+            </div>
+            <div class="form-group">
+                <label>Domain Name</label>
+                <input type="text" name="domainName" class="form-control" placeholder="example.com">
+            </div>
+            <button class="btn btn-primary deployBtn" style="padding: 15px" id="btnSave" type="submit">
+                Submit
+            </button>
+        </form>
+        <div class="log"></div>
+    </div>
+    <div th:if="${ticket.getStatus() == 'Deploying'}">
+        <h5>Deploying..</h5>
+    </div>
+
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    let orderId = $("#orderId").text();
+
+    $(".deployBtn").click(function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: `/api/deploy/${orderId}`,
+            success: function (response) {
+                // TODO: add deploy js
+                if (response.code === 500) {
+                    clearInterval(logFetchInterval);
+                    alert("Deploying failed: " + response.message);
+                }
+            },
+            error: function (response) {
+            }
+        });
+
+        let logFetchInterval = setInterval(() => {
+            // fetch logs every 3 secs
+            $.ajax({
+                type: "GET",
+                url: `/api/deploy/${orderId}/logs`,
+                success: function (response) {
+                    $(".log").html("");
+                    console.log(response);
+                    for (let log of response) {
+                        $(".log").append(`
+                                <div>
+                                    <p>${log.message}</p>
+                                </div>
+                            `);
+                    }
+                },
+                error: function (response) {
+
+                }
+            });
+        }, 3000)
+    });
+</script>
 </body>
 </html>

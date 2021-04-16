@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "techmanagers-service", configuration = {TechmanagersServiceProxy.MultipartSupportConfig.class})
 public interface TechmanagersServiceProxy {
 
-	@RequestMapping(value = {"/api/apps/deploy/tickets"}, method =  {RequestMethod.POST})
+	@RequestMapping(value = {"/api/deploy/tickets"}, method =  {RequestMethod.POST})
 	SimpleResponse createDeployTicket(@RequestParam Long orderId);
 
 	class MultipartSupportConfig {

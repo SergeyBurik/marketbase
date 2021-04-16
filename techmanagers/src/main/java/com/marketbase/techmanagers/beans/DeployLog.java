@@ -1,4 +1,4 @@
-package com.marketbase.app.beans;
+package com.marketbase.techmanagers.beans;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

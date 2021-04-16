@@ -1,28 +1,21 @@
-package com.marketbase.techmanagers.configs;
+package com.marketbase.techmanagers.services;
 
 import com.marketbase.techmanagers.models.User;
 import com.marketbase.techmanagers.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-@ControllerAdvice
-public class AnnotationAdvice {
+@Component
+public class UserService {
 
 	@Autowired
 	UserRepository userRepository;
 
-	@ModelAttribute("projectName")
-	public String projectName() {
-		return "MarketBase - Tech managers";
-	}
-
-	@ModelAttribute("user")
-	public User user() {
+	public User getCurrentUser() {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 		String username = "";
@@ -36,4 +29,5 @@ public class AnnotationAdvice {
 		Optional<User> user = userRepository.findByUsername(username);
 		return user.orElse(null);
 	}
+
 }

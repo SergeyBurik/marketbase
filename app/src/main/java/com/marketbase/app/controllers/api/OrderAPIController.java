@@ -46,6 +46,15 @@ public class OrderAPIController {
 		return orderRepository.findById(id).get();
 	}
 
+	@PostMapping("/{id}")
+	public SimpleResponse updateOrder(@PathVariable Long id, @RequestBody Order order) throws Exception {
+		if (orderRepository.findById(order.getId()).isPresent()) {
+			orderRepository.save(order);
+			return new SimpleResponse(200, "");
+		}
+		throw new Exception("Order does not exist");
+	}
+
 	@PostMapping("/{id}/serverCredential")
 	public SimpleResponse saveServerCredential(@PathVariable("id") Long id,
 											   @RequestParam String serverIP,
