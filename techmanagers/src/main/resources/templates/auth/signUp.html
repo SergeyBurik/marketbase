@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <title>Login V13</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="/static/assets/signUp/vendor/bootstrap/css/bootstrap.min.css">
@@ -15,8 +15,11 @@
     <link rel="stylesheet" type="text/css" href="/static/assets/signUp/vendor/daterangepicker/daterangepicker.css">
     <link rel="stylesheet" type="text/css" href="/static/assets/signUp/css/util.css">
     <link rel="stylesheet" type="text/css" href="/static/assets/signUp/css/main.css">
+    <th:block th:include="fragments/head.html"></th:block>
+
 </head>
 <body style="background-color: #999999;">
+<th:block th:include="fragments/header.html"></th:block>
 
 <div class="limiter">
     <div class="container-login100">

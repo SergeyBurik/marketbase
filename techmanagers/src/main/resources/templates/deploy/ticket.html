@@ -2,57 +2,118 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <title th:text="${projectName}"/>
+    <th:block th:include="fragments/head.html"></th:block>
+
 </head>
-<body style="color: black" data-spy="scroll" data-target=".site-navbar-target" data-offset="100" data-aos-easing="slide"
-      data-aos-duration="800" data-aos-delay="0" data-new-gr-c-s-check-loaded="14.991.0" data-gr-ext-installed=""
-      class="">
+<body>
+<th:block th:include="fragments/header.html"></th:block>
 
+<div style="display: none">
+    <p id="orderId" th:text="${order.getId()}"/>
+</div>
 <div class="container">
-    <h4>Ticket #<span th:text="${ticket.getId()}"/></h4>
-    <h5 th:text="${ticket.getTemplate().getName()}"/>
+    <h4>Ticket #<span th:text="${order.getId()}"/></h4>
+    <h6 th:text="${order.getStatus()}"/>
+    <hr>
+    <h5 th:text="${order.getTemplate().getName()}"/>
+    <ul>
+        <li th:each="module_ : ${order.getModules()}" th:text="${module_.getName()}"/>
+    </ul>
 
-    <form th:action="'/api/deploy/' + ${ticket.getId()} + '/accept'" method="post">
-        <button type="submit">Accept ticket</button>
-    </form>
+    <div th:if="${ticket.getUser()}">
+        <div th:if="${ticket.getUser().getUsername() == user.getUsername()}">
 
-    <div style="display: none">
-        <p id="orderId" th:text="${ticket.getId()}"/>
+            <div th:if="${order.getStatus() == 'Ready to deploy'}">
+                <form action="#" id="form">
+                    <div class="form-group">
+                        <label>Server IP</label>
+                        <input type="text" name="serverIP" class="form-control" placeholder="Server IP">
+                    </div>
+                    <div class="form-group">
+                        <label>Server User</label>
+                        <input type="text" name="serverUser" class="form-control" placeholder="Server User">
+                    </div>
+                    <div class="form-group">
+                        <label>Server Password</label>
+                        <input type="password" name="serverPassword" class="form-control"
+                               placeholder="Server Port">
+                    </div>
+                    <div class="form-group">
+                        <label>Domain Name</label>
+                        <input type="text" name="domainName" class="form-control" placeholder="example.com">
+                    </div>
+                    <button type="submit" class="btn btn-outline-primary deployBtn" id="btnSave">
+                        Submit
+                    </button>
+                </form>
+                <div class="log"></div>
+            </div>
+            <div th:if="${order.getStatus() == 'Deploying'}">
+                <h5>Deploying..</h5>
+            </div>
+            <div th:if="${order.getStatus() == 'Deployed'}">
+                <h5>Confirm deployment</h5>
+                <a class="mb-3" style="display: block" th:href="'http://' + ${order.getDomainName()}" th:text="${order.getDomainName()}"/>
+                <button id="confirmDeploy" class="btn btn-outline-warning">Confirm</button>
+                <button type="button" class="btn btn-outline-danger deployBtn">Retry</button>
+                <div class="log"></div>
+            </div>
+            <div th:if="${order.getStatus() == 'Failed'}">
+                <h5>Deployment failed</h5>
+                <div class="log"></div>
+                <button type="button" class="btn btn-outline-danger deployBtn">Retry</button>
+            </div>
+        </div>
+
+        <h4 th:unless="${ticket.getUser().getUsername() == user.getUsername()}">Ticket is already saved by @<span th:text="${order.getUser().getUsername()}"/></h4>
     </div>
-
-    <div th:if="${ticket.getStatus() == 'Ready to deploy'}">
-        <form action="#" id="form">
-            <div class="form-group">
-                <label>Server IP</label>
-                <input type="text" name="serverIP" class="form-control" placeholder="Server IP">
-            </div>
-            <div class="form-group">
-                <label>Server User</label>
-                <input type="text" name="serverUser" class="form-control" placeholder="Server User">
-            </div>
-            <div class="form-group">
-                <label>Server Password</label>
-                <input type="password" name="serverPassword" class="form-control"
-                       placeholder="Server Port">
-            </div>
-            <div class="form-group">
-                <label>Domain Name</label>
-                <input type="text" name="domainName" class="form-control" placeholder="example.com">
-            </div>
-            <button class="btn btn-primary deployBtn" style="padding: 15px" id="btnSave" type="submit">
-                Submit
-            </button>
+    <div th:unless="${ticket.getUser()}">
+        <form th:action="'/api/deploy/' + ${order.getId()} + '/accept'" id="acceptTicketForm" method="post">
+            <button type="submit" class="btn btn-outline-primary" id="acceptTicketBtn">Accept ticket</button>
         </form>
-        <div class="log"></div>
     </div>
-    <div th:if="${ticket.getStatus() == 'Deploying'}">
-        <h5>Deploying..</h5>
-    </div>
+
 
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     let orderId = $("#orderId").text();
+
+    $("#confirmDeploy").click(function () {
+        $.ajax({
+            type: "POST",
+            url: `/api/deploy/${orderId}/confirmDeploy`,
+            success: function (response) {
+                if (response.code === 500) {
+                    alert("Error: " + response.message);
+                }
+                $("#confirmDeploy").text("Confirmed");
+                location.reload();
+            },
+            error: function (response) {
+            }
+        });
+    });
+
+    $("#acceptTicketForm").submit(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            type: "POST",
+            url: `/api/deploy/${orderId}/accept`,
+            success: function (response) {
+                if (response.code === 500) {
+                    alert("Error: " + response.message);
+                }
+                $("#acceptTicketBtn").text("Accepted");
+                location.reload();
+
+            },
+            error: function (response) {
+            }
+        });
+
+    });
 
     $(".deployBtn").click(function (e) {
         e.preventDefault();

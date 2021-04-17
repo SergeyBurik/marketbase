@@ -2,27 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <title th:text="${projectName}"/>
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <th:block th:include="fragments/head.html"></th:block>
 </head>
 <body>
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#" th:text="${projectName}" />
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" href="#">Features</a>
-            <a class="nav-item nav-link" href="#">Pricing</a>
-        </div>
-    </div>
-</nav>
+<th:block th:include="fragments/header.html"></th:block>
 
 <div class="container">
     <div style="text-align: center">

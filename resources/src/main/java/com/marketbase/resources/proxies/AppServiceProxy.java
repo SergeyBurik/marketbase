@@ -19,7 +19,7 @@ public interface AppServiceProxy {
 	@RequestMapping(value = {"/api/orders/{id}"}, method = {RequestMethod.GET})
 	Order getOrder(@PathVariable Long id);
 
-	@RequestMapping(value = {"/api/orders/{id}/complete"}, method = {RequestMethod.POST}, consumes = {"application/json"})
+	@RequestMapping(value = {"/api/orders/{id}/completeDeploy"}, method = {RequestMethod.POST}, consumes = {"application/json"})
 	SimpleResponse completeOrder(@PathVariable Long id, @RequestParam String result);
 
 	class MultipartSupportConfig {

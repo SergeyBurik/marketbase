@@ -28,7 +28,8 @@ public class AppDeploy {
 
 	@GetMapping("/tickets/{id}")
 	private String ticketView(Model model, @PathVariable Long id) {
-		model.addAttribute("ticket", appServiceProxy.getOrder(id));
+		model.addAttribute("order", appServiceProxy.getOrder(id));
+		model.addAttribute("ticket", appDeployTicketRepository.findByOrderId(id));
 		return "deploy/ticket";
 	}
 

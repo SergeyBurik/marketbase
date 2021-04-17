@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -46,10 +47,12 @@ public class OrderAPIController {
 		return orderRepository.findById(id).get();
 	}
 
-	@PostMapping("/{id}")
-	public SimpleResponse updateOrder(@PathVariable Long id, @RequestBody Order order) throws Exception {
-		if (orderRepository.findById(order.getId()).isPresent()) {
-			orderRepository.save(order);
+	@PostMapping("/{id}/setStatus")
+	public SimpleResponse setOrderStatus(@PathVariable Long id, @RequestParam String status) throws Exception {
+		Optional<Order> order = orderRepository.findById(id);
+		if (order.isPresent()) {
+			order.get().setStatus(status);
+			orderRepository.save(order.get());
 			return new SimpleResponse(200, "");
 		}
 		throw new Exception("Order does not exist");
@@ -79,13 +82,13 @@ public class OrderAPIController {
 		return new SimpleResponse(200, "Server credential was changed.");
 	}
 
-	@PostMapping("/{id}/complete")
+	@PostMapping("/{id}/completeDeploy")
 	public SimpleResponse completeOrder(@PathVariable Long id, @RequestParam String result) {
 		Order order = orderRepository.getOne(id);
 		OrderProperties orderProperties = new OrderProperties();
 
 		if (result.equals("SUCCESS")) {
-			order.setStatus(orderProperties.COMPLETED);
+			order.setStatus(orderProperties.DEPLOYED);
 		} else if (result.equals("FAILED")) {
 			order.setStatus(orderProperties.FAILED);
 		}

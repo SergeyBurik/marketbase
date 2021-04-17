@@ -17,8 +17,8 @@ public interface AppServiceProxy {
 	@RequestMapping(value = {"/api/orders/{id}"}, method =  {RequestMethod.GET})
 	Order getOrder(@PathVariable Long id);
 
-	@RequestMapping(value = {"/api/orders/{id}"}, method =  {RequestMethod.POST})
-	SimpleResponse saveOrder(@PathVariable Long id, @RequestBody Order order);
+	@RequestMapping(value = {"/api/orders/{id}/setStatus"}, method =  {RequestMethod.POST}, headers = {"Content-Type: application/json"})
+	SimpleResponse setOrderStatus(@PathVariable Long id, @RequestParam String status);
 
 	class MultipartSupportConfig {
 		@Bean

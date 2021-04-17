@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -16,11 +17,11 @@
     <!-- Style -->
     <link rel="stylesheet" href="/static/assets/login/css/style.css">
 
-    <title>Login #7</title>
+    <th:block th:include="fragments/head.html"></th:block>
+
 </head>
 <body>
-
-
+<th:block th:include="fragments/header.html"></th:block>
 
 <div class="content">
     <div class="container">

@@ -56,6 +56,12 @@ public class AppDeployAPI {
 		return new SimpleResponse(200, "");
 	}
 
+	@PostMapping("/{id}/confirmDeploy")
+	public SimpleResponse confirmDeploy(@PathVariable Long id) {
+		appServiceProxy.setOrderStatus(id, "Completed");
+		return new SimpleResponse(200, "");
+	}
+
 	@PostMapping("/{id}")
 	public SimpleResponse deployProject(@PathVariable("id") Long id) throws Exception {
 		Order order = appServiceProxy.getOrder(id);
@@ -69,16 +75,14 @@ public class AppDeployAPI {
 		);
 
 		if (response.getCode() == 200) {
-			order.setStatus("Deploying"); // TODO: change it
-			appServiceProxy.saveOrder(order.getId(), order);
+			appServiceProxy.setOrderStatus(order.getId(), "Deploying");// TODO: change it
 
 			return new SimpleResponse(
 					200,
 					"Deploying application"
 			);
 		} else {
-			order.setStatus("Failed");
-			appServiceProxy.saveOrder(order.getId(), order);
+			appServiceProxy.setOrderStatus(order.getId(), "Failed");
 			return new SimpleResponse(500, response.getMessage());
 		}
 	}

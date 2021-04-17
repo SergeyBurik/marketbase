@@ -18,7 +18,7 @@ public class AnnotationAdvice {
 
 	@ModelAttribute("projectName")
 	public String projectName() {
-		return "MarketBase - Tech managers";
+		return "MB - Tech managers";
 	}
 
 	@ModelAttribute("user")
