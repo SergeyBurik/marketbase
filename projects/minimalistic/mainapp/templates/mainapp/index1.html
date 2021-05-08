@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Магазин</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"
+            integrity="sha512-WNLxfP/8cVYL9sj8Jnp6et0BkubLP31jhTG9vhL/F5uEZmg5wEzKoXp1kJslzPQWwPT1eyMiSxlKCgzHLOTOTQ=="
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
+
+    <style>
+        .org_info {
+            color: #777;
+        }
+
+        .star {
+            width: 12px;
+            height: 12px;
+            margin-right: 4px;
+            background: url(https://scdn.italki.com/orion/static/media/star.0f1dd6bd.svg) no-repeat 50%;
+        }
+
+        .org_info h6 {
+            font-weight: 300;
+        }
+
+        .ant-btn-secondary {
+            color: #fff;
+            background-color: #ff554b;
+            border-color: #ff554b;
+            text-shadow: none;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+        }
+
+        html {
+            position: relative;
+            min-height: 100%;
+            background: #f8f9fa !important;
+        }
+
+        .bg-white-container {
+            background: white;
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 7px 25px 0 rgba(0, 0, 0, .1);
+        }
+
+        body {
+            margin-bottom: 90px; /* Margin bottom by footer height */
+            background: #f8f9fa !important;
+
+        }
+
+        .timetable-hours {
+            width: 41% !important;
+        }
+
+        .timetable-column {
+            width: 16%;
+        }
+
+        .grid-item-vacant {
+            background: #7ec937;
+            height: 100%;
+            width: 100%;
+        }
+
+        .grid-item-booked {
+            width: 100%;
+            height: 100%;
+            background: #efefef;
+        }
+
+        .grid-item {
+            text-align: center;
+            height: 26px;
+            border: #ddd solid 1px;
+        }
+
+        .review {
+            height: fit-content;
+        }
+
+        .timetable {
+            display: flex;
+        }
+
+        .ant-btn {
+            position: relative;
+            display: inline-block;
+            font-weight: 500;
+            letter-spacing: .75px;
+            white-space: nowrap;
+            text-align: center;
+            background-image: none;
+            border: 1px solid transparent;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            cursor: pointer;
+            -webkit-transition: all .3s cubic-bezier(.645, .045, .355, 1);
+            transition: all .3s cubic-bezier(.645, .045, .355, 1);
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            text-transform: uppercase;
+            line-height: 1;
+            min-width: 80px;
+            height: 40px;
+            padding: 12px 16px;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 60px; /* Set the fixed height of the footer here */
+            line-height: 60px; /* Vertically center the text there */
+            background-color: white;
+        }
+
+
+        /* Custom page CSS
+        -------------------------------------------------- */
+        /* Not required for template or sticky footer method. */
+
+        .container {
+            width: auto;
+        {#max-width: 680px;#} padding: 0 15px;
+        }
+
+        img, video {
+            width: 100%;
+            height: 100%;
+        }
+
+        .main-media img, .main-media video {
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px;
+        }
+
+        .row {
+            display: flex;
+        }
+
+        .column {
+            flex: 50%;
+        }
+    </style>
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light mb-5" style="background: white">
+    <a class="navbar-brand" href="/">{{ text.com_name }}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            {% for plugin in plugins %}
+                {% if plugin == 'storeapp' %}
+                    <a class="nav-item nav-link active" href="{% url 'store:products' %}">Магазин</a>
+                {% elif plugin == 'blog' %}
+                    <a class="nav-item nav-link active" href="#">Блог</a>
+                {% elif plugin == 'booking' %}
+                    <a class="nav-item nav-link active" href="#">Забронировать</a>
+                {% endif %}
+            {% endfor %}
+
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-12">
+            <div class="main-media">
+
+                <div style="max-height: 600px">
+                    {% if text.main_video %}
+                        <video src="{{ text.main_video }}" controls="controls"></video>
+                    {% elif text.main_photo %}
+                        <img src="{{ text.main_photo }}" alt="">
+                    {% endif %}
+                </div>
+
+            </div>
+            <div class="bg-white-container" style="padding: 40px 30px">
+                <div class="row">
+                    <div class="col-lg-2 col-md-3 col-5">
+                        <img style="border-radius: 50%;width: 100px;height: 100px;object-fit: cover;"
+                             src="{{ text.com_logo }}" alt="">
+                    </div>
+                    <div class="col-lg-8 col-md-7 col-7">
+                        <h4>{{ text.com_name }}</h4>
+                        <div class="org_info">
+                            <h6>{{ text.com_type }}</h6>
+                            <h6>Телефон: {{ text.com_phone_number }}</h6>
+                            <h6>Адрес: {{ text.com_address }}</h6>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-12">
+                        <div style="float: right">
+                            <span style="color: #fec400;">5.0</span>
+                            <div style="display: inline-block;" class="star"></div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="row">
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <h6 style="font-weight: 400">{{ text.com_description|safe }}</h6>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <ul>
+                            {% for adv in advantages %}
+                                <li>{{ adv }}</li>
+                            {% endfor %}
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white-container mt-4">
+                <h5>Отзывы</h5>
+                <div class="row reviews">
+                    {% for review in reviews %}
+                        <div class="col">
+                            <div class="review">
+                                <div class="card" style="width: 100%;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ review.name }}</h5>
+                                        <p class="card-text">{{ review.comment }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+
+                <form action="{% url 'main:leave_comment' %}" class="mt-3" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" id="review-name" name="name" class="form-control"
+                               placeholder="Введите ваше имя">
+                    </div>
+                    <div style="display: none" class="review-box">
+                        <div class="form-group">
+                        <textarea type="text" id="review-name" name="comment" class="form-control"
+                                  placeholder="Отзыв"></textarea>
+                        </div>
+                        <input class="ant-btn" type="submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-12">
+            <div class="bg-white-container">
+                <h6>Сервисы</h6>
+            </div>
+            {% for plugin in plugins %}
+                {% if plugin == 'store' %}
+                    <div class="bg-white-container mt-3">
+                        <h6>Магазин</h6>
+                        <div id="product">
+                            {#random product from store#}
+                        </div>
+                        <a class="mt-3" href="{% url 'store:products' %}">
+                            <button class="ant-btn">
+                                Все товары
+                            </button>
+                        </a>
+                    </div>
+                {% elif plugin == 'blog' %}
+                    <a class="nav-item nav-link active" href="#">Блог</a>
+                {% elif plugin == 'booking' %}
+                    <div class="bg-white-container mt-3">
+                        <h6>Бронирование</h6>
+                        <div id="timetable">
+                            <div class="timetable mb-3">
+                                <div class="timetable-column timetable-hours">
+                                    <div class="grid-item"></div>
+
+                                    <div class="grid-item">
+                                        11:00 - 11:30
+                                    </div>
+
+                                    <div class="grid-item">
+                                        11:30 - 12:00
+                                    </div>
+
+                                    <div class="grid-item">
+                                        12:00 - 12:30
+                                    </div>
+
+                                    <div class="grid-item">
+                                        12:30 - 13:00
+                                    </div>
+
+                                    <div class="grid-item">
+                                        13:00 - 13:30
+                                    </div>
+
+                                    <div class="grid-item">
+                                        13:30 - 14:00
+                                    </div>
+
+                                    <div class="grid-item">
+                                        14:00 - 14:30
+                                    </div>
+
+                                    <div class="grid-item">
+                                        14:30 - 15:00
+                                    </div>
+
+                                    <div class="grid-item">
+                                        15:00 -
+                                    </div>
+                                </div>
+                                <div class="timetable-column Sat">
+                                    <div class="grid-item">Sat</div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-booked"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+                                </div>
+                                <div class="timetable-column Sun">
+                                    <div class="grid-item">Sun</div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+                                </div>
+                                <div class="timetable-column Mon">
+                                    <div class="grid-item">Mon</div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+                                </div>
+                                <div class="timetable-column Tue">
+                                    <div class="grid-item">Tue</div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+                                </div>
+                                <div class="timetable-column Wed">
+                                    <div class="grid-item">Wed</div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+                                </div>
+                                <div class="timetable-column Thu">
+                                    <div class="grid-item">Thu</div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <div class="grid-item-vacant"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <a class="mt-3" href="{% url 'store:products' %}">
+                            <button class="ant-btn">
+                                Забронировать
+                            </button>
+                        </a>
+                    </div>
+
+
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<footer class="footer mt-5">
+    <div class="container">
+        <span class="text-muted">Made by <strong>MarketHub</strong></span>
+    </div>
+</footer>
+
+
+<script>
+    $("#review-name").click(function () {
+        $(".review-box").css("display", 'block');
+    });
+
+    $(document).ready(function () {
+        function APIRequest(url, func, request = "GET", data = null) {
+            let el;
+
+            if (request === 'POST' || request === "PUT") {
+                el = {'method': request, body: JSON.stringify(data)}
+            } else {
+                el = {'method': request};
+            }
+
+            fetch(url, el)
+                .then(
+                    function (response) {
+                        if (response.status !== 200) {
+                            console.log('Looks like there was a problem. Status Code: ' +
+                                response.status);
+                            return;
+                        }
+
+                        // Examine the text in the response
+                        response.json().then(function (data) {
+                            func(data)
+                        });
+                    }
+                )
+                .catch(function (err) {
+                    console.log('Fetch Error :-S', err);
+                });
+        }
+
+        function getRandom(min, max) {
+            return parseInt(Math.random() * (max - min) + min);
+        }
+
+        {% for plugin in plugins %}
+            {% if plugin == 'store' %}
+                APIRequest('/store/products/?api=true', function (products) {
+                    let idx = getRandom(0, products.length);
+                    let product = products[getRandom(0, products.length)];
+                    console.log(product);
+
+                    $("#product").html(`
+                        <div class="card mb-3" style="width: 100%; ">
+                            <img class="card-img-top" style="height: 100px; object-fit: cover;" src="${product.images[getRandom(0, product.images.length)]}" alt="${product.name}">
+                            <div class="card-body">
+                                <h5 class="card-title">${product.name}</h5>
+                                <p class="card-text">${product.description.slice(0, 100)}...</p>
+                                <a href="/store/product/${product.id}/">
+                                    <button class="ant-btn-secondary ant-btn">
+                                        ${product.price}руб.
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    `);
+                });
+
+            {% elif plugin == 'blog' %}
+            {% elif plugin == 'booking' %}
+            {% endif %}
+        {% endfor %}
+    });
+</script>
+</body>
+</html>

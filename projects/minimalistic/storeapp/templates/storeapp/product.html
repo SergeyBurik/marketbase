@@ -1,0 +1,230 @@
+{% extends 'storeapp/base.html' %}
+
+{% block content %}
+
+    <style>
+        .card {
+            box-shadow: 0 7px 25px 0 rgba(0, 0, 0, .1);
+        }
+
+        .gallery-wrap .img-big-wrap img {
+            height: 450px;
+            width: auto;
+            display: inline-block;
+            cursor: zoom-in;
+        }
+
+        .qa-iframe-widget {
+            height: 495px !important;
+        }
+
+        .gallery-wrap .img-small-wrap .item-gallery {
+            width: 60px;
+            height: 60px;
+            border: 1px solid #ddd;
+            margin: 7px 2px;
+            display: inline-block;
+            overflow: hidden;
+        }
+
+        .gallery-wrap .img-small-wrap {
+            text-align: center;
+        }
+
+        .gallery-wrap .img-small-wrap img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: zoom-in;
+        }
+
+        .img-big-wrap img, .img-big-wrap video, .item-gallery img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover;
+        }
+    </style>
+
+    <div class="container mt-5">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <div class="card">
+            <div class="row">
+                <div class="col-sm-5 border-right" style="padding: 0">
+                    <article class="gallery-wrap">
+                        <div class="img-big-wrap">
+                            {% if product.video %}
+                                <div id="photo">
+                                    <video controls="controls" src="{{ product.video.url }}"></video>
+                                </div>
+                            {% else %}
+                                <div id="photo"><a href="#"><img src="{{ product.images.0 }}"></a></div>
+                            {% endif %}
+                        </div> <!-- slider-product.// -->
+                        <div class="img-small-wrap">
+                            {% for image in product.images %}
+                                <div class="item-gallery"><img src="{{ image }}"></div>
+                            {% endfor %}
+                            {% if product.video %}
+                                <div class="item-gallery">
+                                    <video src="{{ product.video.url }}"></video>
+                                </div>
+                            {% endif %}
+                        </div> <!-- slider-nav.// -->
+                    </article> <!-- gallery-wrap .end// -->
+                </div>
+                <aside class="col-sm-7">
+                    <article class="card-body p-5">
+                        <h3 class="title mb-3">{{ product.name }}</h3>
+                        <h6>{{ product.category.name }}</h6>
+
+                        <p class="price-detail-wrap">
+                            <span class="price h3">
+                                <span class="currency">{{ product.price }} руб.</span>
+                            </span>
+                        </p> <!-- price-detail-wrap .// -->
+                        <dl class="item-property">
+                            <dt>Описание</dt>
+                            <dd><p>{{ product.description|safe }}</p></dd>
+                        </dl>
+
+                        <hr>
+                        {% if not product.is_unlimited %}
+                            <div class="form-group">
+                                <label for="">Кол-во: </label>
+                                <input type="number" class="form-control" style="width: 60px;" value="1"
+                                       placeholder="Кол-во" id="quantity">
+                            </div>
+                        {% else %}
+                            <h7 style="color:#777;">Товар не лимитирован</h7>
+                            <div></div>
+                        {% endif %}
+                        <br>
+                        <button id="checkoutBtn" class="ant-btn-secondary ant-btn">
+                            Купить
+                        </button>
+                    </article> <!-- card-body.// -->
+                </aside> <!-- col.// -->
+            </div> <!-- row.// -->
+        </div> <!-- card.// -->
+        <div class="card" style="display: none" id="order_form">
+            <form action="#">
+                <div class="container mt-4 mb-4">
+                    <h6>Оформление заказа:</h6>
+
+                    <div class="form-group">
+                        <label for="">Email:</label>
+                        <input type="email" name="email" required class="form-control" placeholder="email">
+                    </div>
+                    {% if not product.is_unlimited %}
+                        {% if delivery %}
+                            <div class="form-group">
+                                <label for="">Адрес:</label>
+                                <input type="text" name="address" required class="form-control" placeholder="Адрес">
+                            </div>
+                        {% endif %}
+                        <div class="form-group">
+                            <label for="" style="margin-right: 10px">Самовывоз:</label>
+                            <input type="checkbox" name="pickup" placeholder="Самовывоз">
+                        </div>
+                    {% endif %}
+                    <button class="ant-btn" id="buy">Купить</button>
+
+                </div>
+
+            </form>
+
+        </div>
+        <div class="card">
+            <div id="payment-form" class="mt-5" style="display: none"></div>
+        </div>
+    </div>
+
+
+    <div class="container mt-5 mb-5">
+        <h5>Похожие продукты</h5>
+
+        <div class="row">
+            {% for s_prod in similar %}
+                <div class="col-lg-3 col-md-3 col-6 mt-2">
+                    <div class="card" style="width: 100%; ">
+                        <img class="card-img-top" src="{{ s_prod.images.0 }}" alt="{{ s_prod.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ s_prod.name }}</h5>
+                            <p class="card-text">{{ s_prod.description|truncatewords:10|safe }}</p>
+                            <a href="{% url 'store:product' s_prod.id %}">
+                                <button class="ant-btn-secondary ant-btn" type="button">
+                                    {{ s_prod.price }}
+                                    руб.
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <!--HTML-элемент, в котором будет отображаться платежная форма-->
+        </div>
+    </div>
+
+    <script>
+        $('.item-gallery img').click(function () {
+            $("#photo").html(`<img src="${$(this).attr('src')}">`);
+        });
+        $('.item-gallery video').click(function () {
+            $("#photo").html(`<video style=" width: 100%; height: 100%;" controls="controls" src="${$(this).attr('src')}">`);
+        });
+    </script>
+
+    <!--Подключение библиотеки-->
+    <script src="https://kassa.yandex.ru/checkout-ui/v2.js"></script>
+
+    <script>
+        let paymentCreated = false;
+
+        $("#checkoutBtn").click(function () {
+            $("#order_form").css("display", "block");
+        });
+        $("#buy").click(function (e) {
+            e.preventDefault();
+            if (!paymentCreated) {
+                let url = "/store/product/{{ product.id }}/checkout/";
+                if (!{{ product.is_unlimited|lower }}) {
+                    url += '?quantity=' + $("#quantity").val()
+                }
+
+                console.log(url);
+                APIRequest(url, function (token) {
+                    // Инициализация виджета. Все параметры обязательные.
+                    const checkout = new window.YandexCheckout({
+                        confirmation_token: token.token, //Токен, который перед проведением оплаты нужно получить от ЮKassa
+                        return_url: `{{ host }}/store/order/${token.token}/complete/`,
+                        error_callback(error) {
+                            //Обработка ошибок инициализации
+                        }
+                    });
+
+                    //Отображение платежной формы в контейнере
+                    checkout.render('payment-form');
+                    paymentCreated = true;
+                    $("#payment-form").css("display", "block");
+
+                }, "POST", {
+                    "pickup": $("input[name=pickup]").val(),
+                    "address": $("input[name=address]").val(),
+                    "email": $("input[name=email]").val()
+                });
+            }
+        })
+
+
+    </script>
+{% endblock %}
