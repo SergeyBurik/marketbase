@@ -9,7 +9,7 @@ import uuid
 # Create your views here.
 from mainapp.models import TextObject
 from storeapp.models import Product, ProductPhoto, Category, Order
-from mainapp import tools
+from storeapp import tools
 from minimalistic import settings
 
 Configuration.configure('707095', 'test_ZlfSv-xgCIBSKohaHNcifWgXrkaO3CTfEtt7sbj5FWk')

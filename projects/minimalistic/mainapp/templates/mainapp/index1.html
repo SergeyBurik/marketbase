@@ -190,19 +190,19 @@
             <div class="main-media">
 
                 <div style="max-height: 600px">
-                    {% if text.main_video %}
-                        <video src="{{ text.main_video }}" controls="controls"></video>
-                    {% elif text.main_photo %}
-                        <img src="{{ text.main_photo }}" alt="">
+                    {% if media.main_video %}
+                        <video src="{{ media.main_video.url }}" controls="controls"></video>
+                    {% endif %}
+                    {% if media.main_photo %}
+                        <img src="{{ media.main_photo.url }}" alt="">
                     {% endif %}
                 </div>
-
             </div>
             <div class="bg-white-container" style="padding: 40px 30px">
                 <div class="row">
                     <div class="col-lg-2 col-md-3 col-5">
                         <img style="border-radius: 50%;width: 100px;height: 100px;object-fit: cover;"
-                             src="{{ text.com_logo }}" alt="">
+                             src="{{ media.com_logo.url }}" alt="">
                     </div>
                     <div class="col-lg-8 col-md-7 col-7">
                         <h4>{{ text.com_name }}</h4>
@@ -266,7 +266,7 @@
                         <textarea type="text" id="review-name" name="comment" class="form-control"
                                   placeholder="Отзыв"></textarea>
                         </div>
-                        <input class="ant-btn" type="submit">
+                        <input class="ant-btn" type="submit" value="">
                     </div>
                 </form>
             </div>
@@ -277,7 +277,7 @@
                 <h6>Сервисы</h6>
             </div>
             {% for plugin in plugins %}
-                {% if plugin == 'store' %}
+                {% if plugin == 'storeapp' %}
                     <div class="bg-white-container mt-3">
                         <h6>Магазин</h6>
                         <div id="product">

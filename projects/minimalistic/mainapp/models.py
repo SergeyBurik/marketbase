@@ -12,7 +12,7 @@ class TextObject(models.Model):
 
 class MediaObject(models.Model):
 	key = models.CharField(max_length=50, verbose_name="Media key")
-	file = models.FileField(verbose_name="File")
+	file = models.FileField(verbose_name="File", null=True)
 
 	def __str__(self):
 		return self.key
