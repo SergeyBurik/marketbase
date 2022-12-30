@@ -6,6 +6,7 @@ import com.marketbase.app.models.Module;
 import com.marketbase.app.models.Order;
 import com.marketbase.app.models.OrderProperties;
 import com.marketbase.app.proxies.ResourcesServiceProxy;
+import com.marketbase.app.proxies.TechmanagersServiceProxy;
 import com.marketbase.app.repositories.ModuleRepository;
 import com.marketbase.app.repositories.OrderRepository;
 import com.marketbase.app.repositories.TemplateRepository;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -37,9 +39,23 @@ public class OrderAPIController {
 	@Autowired
 	ResourcesServiceProxy resourcesServiceProxy;
 
+	@Autowired
+	TechmanagersServiceProxy techmanagersServiceProxy;
+
 	@GetMapping("/{id}")
 	public Order getOrder(@PathVariable Long id) {
 		return orderRepository.findById(id).get();
+	}
+
+	@PostMapping("/{id}/setStatus")
+	public SimpleResponse setOrderStatus(@PathVariable Long id, @RequestParam String status) throws Exception {
+		Optional<Order> order = orderRepository.findById(id);
+		if (order.isPresent()) {
+			order.get().setStatus(status);
+			orderRepository.save(order.get());
+			return new SimpleResponse(200, "");
+		}
+		throw new Exception("Order does not exist");
 	}
 
 	@PostMapping("/{id}/serverCredential")
@@ -48,6 +64,7 @@ public class OrderAPIController {
 											   @RequestParam String domainName,
 											   @RequestParam String serverUser,
 											   @RequestParam String serverPassword) {
+		// save order info
 		Order order = orderRepository.getOne(id);
 
 		order.setServerIP(serverIP);
@@ -59,16 +76,19 @@ public class OrderAPIController {
 
 		orderRepository.save(order);
 
+		// send deploy ticket to tech managers
+		techmanagersServiceProxy.createDeployTicket(id);
+
 		return new SimpleResponse(200, "Server credential was changed.");
 	}
 
-	@PostMapping("/{id}/complete")
+	@PostMapping("/{id}/completeDeploy")
 	public SimpleResponse completeOrder(@PathVariable Long id, @RequestParam String result) {
 		Order order = orderRepository.getOne(id);
 		OrderProperties orderProperties = new OrderProperties();
 
 		if (result.equals("SUCCESS")) {
-			order.setStatus(orderProperties.COMPLETED);
+			order.setStatus(orderProperties.DEPLOYED);
 		} else if (result.equals("FAILED")) {
 			order.setStatus(orderProperties.FAILED);
 		}
@@ -129,8 +149,8 @@ public class OrderAPIController {
 				"Created",
 				connectedModules
 		);
-
 		orderRepository.save(order);
-		return new SimpleResponse(200, "Order was created.");
+
+		return new SimpleResponse(200, "Order was created.", order.getId());
 	}
 }

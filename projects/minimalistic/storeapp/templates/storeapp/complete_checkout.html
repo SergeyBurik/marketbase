@@ -1,0 +1,14 @@
+{% extends 'storeapp/base.html' %}
+{% block content %}
+    <div class="container mt-5" style="margin: auto">
+        <h4>Спасибо за покупку!</h4>
+        <h6>Заказ:</h6>
+        <ol>
+            <li>Наименование: {{ product.name }}</li>
+            <li>Категория: {{ product.category.name }}</li>
+            <li>Количество: {{ quantity }}</li>
+            <li><strong>Итого: {% widthratio product.price 1 quantity %}руб.</strong></li>
+        </ol>
+        <h6>Подробная информация была отправлена на ваш email</h6>
+    </div>
+{% endblock %}

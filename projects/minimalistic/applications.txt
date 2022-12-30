@@ -1,0 +1,3 @@
+storeapp;store;store/
+blogapp;blog;blog/
+mainapp;main;/

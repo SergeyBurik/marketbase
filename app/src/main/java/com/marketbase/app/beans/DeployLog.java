@@ -1,5 +1,7 @@
 package com.marketbase.app.beans;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class DeployLog {
@@ -11,6 +13,7 @@ public class DeployLog {
 
 	private String type;
 
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date dateTime;
 
 	public Long getId() {
