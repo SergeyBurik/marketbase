@@ -178,7 +178,9 @@
             url: `/api/orders`,
             data: $(this).serialize(),
             success: function (response) {
-                document.location = "/orders";
+                console.log(response);
+                console.log(response.objId);
+                document.location = "/orders/" + response.objId;
             },
             error: function (response) {
                 $("#serverCredentialStatus").text("Error while saving");

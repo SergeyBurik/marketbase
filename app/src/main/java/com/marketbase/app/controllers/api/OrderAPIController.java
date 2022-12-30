@@ -149,8 +149,8 @@ public class OrderAPIController {
 				"Created",
 				connectedModules
 		);
-
 		orderRepository.save(order);
-		return new SimpleResponse(200, "Order was created.");
+
+		return new SimpleResponse(200, "Order was created.", order.getId());
 	}
 }

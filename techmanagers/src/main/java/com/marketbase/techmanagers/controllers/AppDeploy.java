@@ -20,7 +20,7 @@ public class AppDeploy {
 	@Autowired
 	AppServiceProxy appServiceProxy;
 
-	@GetMapping("/tickets")
+		@GetMapping("/tickets")
 	private String appDeployTickets(Model model) {
 		model.addAttribute("tickets", appDeployTicketRepository.findAll());
 		return "deploy/tickets";
